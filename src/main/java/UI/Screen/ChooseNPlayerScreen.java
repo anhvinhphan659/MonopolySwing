@@ -16,15 +16,24 @@ public class ChooseNPlayerScreen extends JPanel {
         initComponents();
     }
 
+    //add action for buttons in panel
     private void setUpActions()
     {
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(ChooseNPlayerScreen.this);
+                gameFrame.setSize(new Dimension(StartScreen.WIDTH_SCREEN,StartScreen.HEIGHT_SCREEN));
+                gameFrame.changeGamePanel(new StartScreen());
+            }
+        });
+
         startGameBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(ChooseNPlayerScreen.this);
                 gameFrame.setResizable(true);
                 gameFrame.setSize(new Dimension(MainGameScreen.WIDTH_SCREEN,MainGameScreen.HEIGHT_SCREEN));
-                gameFrame.setResizable(false);
                 gameFrame.changeGamePanel(new MainGameScreen());
             }
         });

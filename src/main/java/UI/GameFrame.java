@@ -26,6 +26,7 @@ public class GameFrame extends JFrame {
         setPreferredSize(new Dimension(600,400));
         setDefaultLookAndFeelDecorated(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Monopoly Swing");
         setResizable(false);
         add(new StartScreen());
         setVisible(true);

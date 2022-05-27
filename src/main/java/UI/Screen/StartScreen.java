@@ -72,15 +72,25 @@ public class StartScreen extends JPanel {
         
     }
 
-
+    //add action for buttons in panel
     private void setUpActions()
     {
+
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(StartScreen.this);
-                gameFrame.setPreferredSize(new Dimension(ChooseNPlayerScreen.WIDTH_SCREEN,ChooseNPlayerScreen.HEIGHT_SCREEN));
+                gameFrame.setSize(new Dimension(ChooseNPlayerScreen.WIDTH_SCREEN,ChooseNPlayerScreen.HEIGHT_SCREEN));
                 gameFrame.changeGamePanel(new ChooseNPlayerScreen());
+            }
+        });
+
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(StartScreen.this);
+                //exit game
+                gameFrame.dispose();
             }
         });
     }

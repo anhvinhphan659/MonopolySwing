@@ -1,13 +1,116 @@
 package UI.Screen;
 
+import Model.Land;
+import Model.Player;
+import UI.GameFrame;
+import UI.Item.CornerItem;
+import UI.Item.LandItem;
+import UI.Renderer.LandLVRenderer;
+import UI.Renderer.PlayerLVRenderer;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 public class MainGameScreen extends JPanel {
-    public final static int WIDTH_SCREEN=800;
-    public final static int HEIGHT_SCREEN=600;
+    public final static int WIDTH_SCREEN=1100;
+    public final static int HEIGHT_SCREEN=750;
     public MainGameScreen()
     {
         initComponents();
+        setUpOthersForComponent();
+    }
+
+    private void setUpActions()
+    {
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(MainGameScreen.this);
+                gameFrame.setSize(new Dimension(ChooseNPlayerScreen.WIDTH_SCREEN,ChooseNPlayerScreen.HEIGHT_SCREEN));
+                gameFrame.changeGamePanel(new ChooseNPlayerScreen());
+            }
+        });
+
+        Thread t=new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                int pos_x=125;
+
+
+                for (int i=0;i<8;i++)
+                {
+                    LandItem item=new LandItem();
+                    item.setBounds(50,pos_x,LandItem.WIDTH_ITEM,LandItem.HEIGHT_ITEM);
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        SwingUtilities.invokeAndWait(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.out.println("add new item");
+                                gamePanel.add(item,0);
+                                gamePanel.repaint();
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    pos_x+=LandItem.HEIGHT_ITEM;
+                }
+            }
+        };
+        t.start();
+
+
+        CornerItem corner1=new CornerItem();
+        corner1.setBounds(50,25,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+        gamePanel.add(corner1,0);
+
+        CornerItem corner2=new CornerItem();
+        corner2.setBounds(50,500,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+        gamePanel.add(corner2,0);
+
+        JLabel testLB=new JLabel("test");
+        testLB.setBounds(50,525,120,40);
+//        gamePanel.add(testLB,2);
+
+        // TODO: Add action for other game logic button
+
+
+
+    }
+    private void setUpOthersForComponent()
+    {
+        playerDefaultListModel=new DefaultListModel<>();
+        landDefaultListModel=new DefaultListModel<>();
+
+        playerList.setModel(playerDefaultListModel);
+        landList.setModel(landDefaultListModel);
+
+        playerList.setCellRenderer(new PlayerLVRenderer());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+        playerDefaultListModel.addElement(new Player());
+
+        landList.setCellRenderer(new LandLVRenderer());
+
+
     }
 
     private void initComponents() {
@@ -35,15 +138,16 @@ public class MainGameScreen extends JPanel {
 
         jButton5.setText("BACK");
 
-
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setSize(new Dimension(WIDTH_SCREEN,HEIGHT_SCREEN));
+        setPreferredSize(new java.awt.Dimension(WIDTH_SCREEN, HEIGHT_SCREEN));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         jPanel1.setMaximumSize(new java.awt.Dimension(300, 32767));
-        jPanel1.setPreferredSize(new java.awt.Dimension(250, 601));
+        jPanel1.setPreferredSize(new java.awt.Dimension(250, 750));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel10.setMaximumSize(new java.awt.Dimension(32767, 40));
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
 
@@ -83,7 +187,7 @@ public class MainGameScreen extends JPanel {
         jLabel3.setText("LAND LIST");
         jPanel9.add(jLabel3);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 350));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 250));
 
         landList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane2.setViewportView(landList);
@@ -94,26 +198,16 @@ public class MainGameScreen extends JPanel {
 
         add(jPanel1, java.awt.BorderLayout.WEST);
 
+        jPanel2.setPreferredSize(new java.awt.Dimension(650, 750));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         gamePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         gamePanel.setMaximumSize(new java.awt.Dimension(550, 32767));
         gamePanel.setPreferredSize(new java.awt.Dimension(650, 650));
-
-        javax.swing.GroupLayout gamePanelLayout = new javax.swing.GroupLayout(gamePanel);
-        gamePanel.setLayout(gamePanelLayout);
-        gamePanelLayout.setHorizontalGroup(
-                gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 628, Short.MAX_VALUE)
-        );
-        gamePanelLayout.setVerticalGroup(
-                gamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 648, Short.MAX_VALUE)
-        );
-
+        gamePanel.setLayout(null);
         jPanel2.add(gamePanel, java.awt.BorderLayout.PAGE_START);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 20, 10));
         jPanel4.setLayout(new java.awt.GridLayout(1, 4, 20, 0));
 
         buildBtn.setText("BUILD");
@@ -133,6 +227,8 @@ public class MainGameScreen extends JPanel {
         jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
+        //add actions
+        setUpActions();
     }
 
     private javax.swing.JButton backBtn;
@@ -150,11 +246,15 @@ public class MainGameScreen extends JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> landList;
+    private javax.swing.JList<Land> landList;
     private javax.swing.JLabel moneyLb;
     private javax.swing.JButton mortageBtn;
-    private javax.swing.JList<String> playerList;
+    private javax.swing.JList<Player> playerList;
     private javax.swing.JButton sellBtn;
     private javax.swing.JButton tradeBtn;
+
+    //model list view
+    private DefaultListModel<Player> playerDefaultListModel;
+    private DefaultListModel<Land> landDefaultListModel;
 
 }
