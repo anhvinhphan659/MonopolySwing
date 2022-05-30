@@ -324,7 +324,7 @@ public class MainGameScreen extends JPanel {
         moneyLb.setText(String.valueOf(player.getMoney()));
         landDefaultListModel.removeAllElements();
         for(LandItem item: player.getLandList()){
-            landDefaultListModel.addElement(item.getLand());
+//            landDefaultListModel.addElement(item.getLand());
         }
     }
 
