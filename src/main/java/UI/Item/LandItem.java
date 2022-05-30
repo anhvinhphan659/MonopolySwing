@@ -16,8 +16,6 @@ public class LandItem extends JPanel implements ActionListener {
     //color of land
     private Color landColor;
     //store position (x,y) of item
-    private int X_POSITION=-1;
-    private int Y_POSTION=-1;
     //land consists of land for house and land for utilities
     private boolean isLand=true;
     //direction of land item
@@ -80,9 +78,9 @@ public class LandItem extends JPanel implements ActionListener {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }
 
-    public Land getLand() {
-        return land;
-    }
+//    public Land getLand() {
+//        return land;
+//    }
 
 
 

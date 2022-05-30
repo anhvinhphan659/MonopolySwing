@@ -1,14 +1,218 @@
 [
   {
-    "name": "Land1",
-    "landPrice": 60,
-    "priority": 1,
-    "th": 0
+    "name": "Start",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
   },
   {
-    "name": "Land2",
-    "landPrice": 80,
+    "name": "Land 1",
+    "landPrice": 60,
     "priority": 1,
-    "th": 1
+    "isLand": true
+  },
+  {
+    "name": "Land 2",
+    "landPrice": 65,
+    "priority": 1,
+    "isLand": true
+  },
+  {
+    "name": "Land 3",
+    "landPrice": 70,
+    "priority": 1,
+    "isLand": true
+  },
+  {
+    "name": "Land 4",
+    "landPrice": 75,
+    "priority": 1,
+    "isLand": true
+  },
+  {
+    "name": "Land 5",
+    "landPrice": 90,
+    "priority": 2,
+    "isLand": true
+  },
+  {
+    "name": "Land 6",
+    "landPrice": 100,
+    "priority": 2,
+    "isLand": true
+  },
+  {
+    "name": "Chance",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
+  },
+  {
+    "name": "Land 7",
+    "landPrice": 110,
+    "priority": 2,
+    "isLand": true
+  },
+  {
+    "name": "Prison",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
+  },
+  {
+    "name": "Land 8",
+    "landPrice": 150,
+    "priority": 3,
+    "isLand": true
+  },
+  {
+    "name": "Land 9",
+    "landPrice": 160,
+    "priority": 3,
+    "isLand": true
+  },
+  {
+    "name": "Land 10",
+    "landPrice": 170,
+    "priority": 3,
+    "isLand": true
+  },
+  {
+    "name": "Land 11",
+    "landPrice": 180,
+    "priority": 3,
+    "isLand": true
+  },
+  {
+    "name": "Land 12",
+    "landPrice": 240,
+    "priority": 4,
+    "isLand": true
+  },
+  {
+    "name": "Land 13",
+    "landPrice": 250,
+    "priority": 4,
+    "isLand": true
+  },
+  {
+    "name": "Land 14",
+    "landPrice": 260,
+    "priority": 4,
+    "isLand": true
+  },
+  {
+    "name": "Land 15",
+    "landPrice": 270,
+    "priority": 4,
+    "isLand": true
+  },
+  {
+    "name": "Park",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
+  },
+  {
+    "name": "Land 16",
+    "landPrice": 300,
+    "priority": 5,
+    "isLand": true
+  },
+  {
+    "name": "Land 17",
+    "landPrice": 310,
+    "priority": 5,
+    "isLand": true
+  },
+  {
+    "name": "Land 18",
+    "landPrice": 320,
+    "priority": 5,
+    "isLand": true
+  },
+  {
+    "name": "Land 19",
+    "landPrice": 330,
+    "priority": 5,
+    "isLand": true
+  },
+  {
+    "name": "Land 20",
+    "landPrice": 370,
+    "priority": 6,
+    "isLand": true
+  },
+  {
+    "name": "Land 21",
+    "landPrice": 380,
+    "priority": 6,
+    "isLand": true
+  },
+  {
+    "name": "Land 22",
+    "landPrice": 390,
+    "priority": 6,
+    "isLand": true
+  },
+  {
+    "name": "Land 23",
+    "landPrice": 400,
+    "priority": 6,
+    "isLand": true
+  },
+  {
+    "name": "Go to jail",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
+  },
+  {
+    "name": "Land 24",
+    "landPrice": 450,
+    "priority": 7,
+    "isLand": true
+  },
+  {
+    "name": "Chance",
+    "landPrice": 0,
+    "priority": 0,
+    "isLand": false
+  },
+  {
+    "name": "Land 25",
+    "landPrice": 460,
+    "priority": 7,
+    "isLand": true
+  },
+  {
+    "name": "Land 26",
+    "landPrice": 470,
+    "priority": 7,
+    "isLand": true
+  },
+  {
+    "name": "Land 27",
+    "landPrice": 520,
+    "priority": 8,
+    "isLand": true
+  },
+  {
+    "name": "Land 28",
+    "landPrice": 530,
+    "priority": 8,
+    "isLand": true
+  },
+  {
+    "name": "Land 39",
+    "landPrice": 540,
+    "priority": 8,
+    "isLand": true
+  },
+  {
+    "name": "Land 30",
+    "landPrice": 550,
+    "priority": 8,
+    "isLand": true
   }
 ]
