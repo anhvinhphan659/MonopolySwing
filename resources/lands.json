@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Land1",
+    "landPrice": 60,
+    "priority": 1,
+    "th": 0
+  },
+  {
+    "name": "Land2",
+    "landPrice": 80,
+    "priority": 1,
+    "th": 1
+  }
+]
