@@ -1,8 +1,11 @@
 package UI.Screen;
 
 import UI.GameFrame;
+import UI.Util.GameParameter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +22,8 @@ public class ChooseNPlayerScreen extends JPanel {
     //add action for buttons in panel
     private void setUpActions()
     {
+        nPlayerTf.setEnabled(false);
+        nPlayerTf.setDisabledTextColor(Color.BLACK);
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,6 +40,16 @@ public class ChooseNPlayerScreen extends JPanel {
                 gameFrame.setResizable(true);
                 gameFrame.setSize(new Dimension(MainGameScreen.WIDTH_SCREEN,MainGameScreen.HEIGHT_SCREEN));
                 gameFrame.changeGamePanel(new MainGameScreen());
+            }
+        });
+
+        nPlayerSl.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int value = nPlayerSl.getValue();
+                nPlayerSl.setValue(value);
+                nPlayerTf.setText(String.valueOf(value));
+                GameParameter.setnPlayer(value);
             }
         });
     }
@@ -91,7 +106,6 @@ public class ChooseNPlayerScreen extends JPanel {
         nPlayerTf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         nPlayerTf.setText("2");
         nPlayerTf.setPreferredSize(new java.awt.Dimension(30, 25));
-
         jPanel3.add(nPlayerTf);
 
         jPanel1.add(jPanel3);

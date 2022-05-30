@@ -7,11 +7,14 @@ import UI.Item.CornerItem;
 import UI.Item.LandItem;
 import UI.Renderer.LandLVRenderer;
 import UI.Renderer.PlayerLVRenderer;
+import UI.Util.GameParameter;
 import org.jdesktop.jxlayer.JXLayer;
 import org.pbjar.jxlayer.plaf.ext.transform.DefaultTransformModel;
 import org.pbjar.jxlayer.plaf.ext.transform.TransformUtils;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +30,9 @@ public class MainGameScreen extends JPanel {
     private final static int START_BOARD_POS_Y=25;
 
     private final static int ACTION_INTERVAL=100;
+
+    private int nPlayer = GameParameter.getnPlayer();
+    private ArrayList<Player> playerArrayList = new ArrayList<>();
 
     public MainGameScreen()
     {
@@ -46,21 +52,6 @@ public class MainGameScreen extends JPanel {
                 gameFrame.changeGamePanel(new ChooseNPlayerScreen());
             }
         });
-
-
-
-
-//        CornerItem corner1=new CornerItem();
-//        corner1.setBounds(50,25,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
-//        gamePanel.add(corner1,0);
-//
-//        CornerItem corner2=new CornerItem();
-//        corner2.setBounds(50,500,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
-//        gamePanel.add(corner2,0);
-
-        JLabel testLB=new JLabel("test");
-//        testLB.setBounds(50,525,120,40);
-//        gamePanel.add(testLB,2);
 
         // TODO: Add action for other game logic button
 
@@ -90,7 +81,7 @@ public class MainGameScreen extends JPanel {
 
     private void drawLaneLine(int direction, ArrayList<Land> l,int startX,int startY)
     {
-        System.out.println(""+startX+"-"+startY);
+//        System.out.println(""+startX+"-"+startY);
         //draw corner
         CornerItem corner=new CornerItem();
         try {
@@ -189,17 +180,25 @@ public class MainGameScreen extends JPanel {
         landList.setModel(landDefaultListModel);
 
         playerList.setCellRenderer(new PlayerLVRenderer());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
-        playerDefaultListModel.addElement(new Player());
+        for(int i = 0; i< nPlayer; i++){
+            playerArrayList.add(new Player(GameParameter.getPlayerNameList()[i], GameParameter.getMoney()));
+            playerDefaultListModel.addElement(playerArrayList.get(i));
+        }
+
+        playerList.setEnabled(false);
+        playerList.setSelectedIndex(0);
 
         landList.setCellRenderer(new LandLVRenderer());
+        landList.setEnabled(false);
 
+        showPlayerInfo(playerArrayList.get(0));
+
+        playerList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                showPlayerInfo(playerList.getSelectedValue());
+            }
+        });
 
     }
 
@@ -319,6 +318,26 @@ public class MainGameScreen extends JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
         //add actions
         setUpActions();
+    }
+
+    private void showPlayerInfo(Player player){
+        moneyLb.setText(String.valueOf(player.getMoney()));
+        landDefaultListModel.removeAllElements();
+        for(LandItem item: player.getLandList()){
+            landDefaultListModel.addElement(item.getLand());
+        }
+    }
+
+    private void nextPlaywer(){
+        int nextPlayerIndex = playerList.getSelectedIndex() + 1;
+
+        if(nextPlayerIndex == nPlayer){
+            nextPlayerIndex = 0;
+        }
+
+        playerList.setSelectedIndex(nextPlayerIndex);
+
+        showPlayerInfo(playerList.getSelectedValue());
     }
 
     private javax.swing.JButton backBtn;

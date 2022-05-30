@@ -26,7 +26,6 @@ public class LandItem extends JPanel implements ActionListener {
     private Land land;
     private Player owner;
 
-    Graphics2D g2d;
 
     public LandItem()
     {
@@ -34,7 +33,9 @@ public class LandItem extends JPanel implements ActionListener {
         initComponents();
 
     }
-
+//    public LandItem(String name){
+//        land = new Land();
+//    }
     private void initComponents() {
         colorpanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -78,6 +79,13 @@ public class LandItem extends JPanel implements ActionListener {
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }
+
+    public Land getLand() {
+        return land;
+    }
+
+
+
 
     private javax.swing.JPanel colorpanel;
     private javax.swing.JLabel imageLb;
