@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -31,11 +32,14 @@ public class MainGameScreen extends JPanel {
 
     private final static int ACTION_INTERVAL=100;
 
-    private int nPlayer = GameParameter.getnPlayer();
-    private ArrayList<Player> playerArrayList = new ArrayList<>();
+    private int nPlayer;
+    private ArrayList<Player> playerArrayList;
+    private ArrayList<LandItem> landItemList;
 
-    public MainGameScreen()
-    {
+    public MainGameScreen() throws IOException {
+        nPlayer = GameParameter.getnPlayer();
+        playerArrayList = new ArrayList<>();
+
         initComponents();
         setUpOthersForComponent();
         drawGameBoard();
@@ -83,6 +87,7 @@ public class MainGameScreen extends JPanel {
     {
 //        System.out.println(""+startX+"-"+startY);
         //draw corner
+
         CornerItem corner=new CornerItem();
         try {
             int finalStartX = startX;
@@ -171,8 +176,7 @@ public class MainGameScreen extends JPanel {
     }
 
 
-    private void setUpOthersForComponent()
-    {
+    private void setUpOthersForComponent() throws IOException {
         playerDefaultListModel=new DefaultListModel<>();
         landDefaultListModel=new DefaultListModel<>();
 
@@ -180,8 +184,10 @@ public class MainGameScreen extends JPanel {
         landList.setModel(landDefaultListModel);
 
         playerList.setCellRenderer(new PlayerLVRenderer());
+
+        ArrayList<String> namePlayerList = Handler.GameHandle.readNameFile();
         for(int i = 0; i< nPlayer; i++){
-            playerArrayList.add(new Player(GameParameter.getPlayerNameList()[i], GameParameter.getMoney()));
+            playerArrayList.add(new Player(namePlayerList.get(i), GameParameter.getMoney()));
             playerDefaultListModel.addElement(playerArrayList.get(i));
         }
 
@@ -323,9 +329,9 @@ public class MainGameScreen extends JPanel {
     private void showPlayerInfo(Player player){
         moneyLb.setText(String.valueOf(player.getMoney()));
         landDefaultListModel.removeAllElements();
-        for(LandItem item: player.getLandList()){
+//        for(LandItem item: player.getLandList()){
 //            landDefaultListModel.addElement(item.getLand());
-        }
+//        }
     }
 
     private void nextPlaywer(){

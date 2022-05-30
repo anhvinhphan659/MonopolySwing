@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ChooseNPlayerScreen extends JPanel {
     public final static int WIDTH_SCREEN=600;
@@ -39,7 +40,11 @@ public class ChooseNPlayerScreen extends JPanel {
                 GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(ChooseNPlayerScreen.this);
                 gameFrame.setResizable(true);
                 gameFrame.setSize(new Dimension(MainGameScreen.WIDTH_SCREEN,MainGameScreen.HEIGHT_SCREEN));
-                gameFrame.changeGamePanel(new MainGameScreen());
+                try {
+                    gameFrame.changeGamePanel(new MainGameScreen());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
