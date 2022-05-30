@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.ArrayList;
 
-public class GameHandle {
+public class GameHandler {
     public final static String PATH_NAME_FILE = "resources/names.txt";
     public static ArrayList<String> readNameFile() throws IOException {
         ArrayList<String> nameList = new ArrayList<>();

@@ -1,15 +1,26 @@
 package Model;
 
+import org.json.JSONObject;
+
 public class Land {
     private String name;
-
     private int price;
     private int priority;
+    private boolean isLand;
 
-    public Land(String name, int location, int priority) {
+    public Land(String name, int location, int priority,boolean isLand) {
         this.name = name;
         this.price = location;
         this.priority = priority;
+        this.isLand=isLand;
+    }
+
+    public Land(JSONObject landInformation)
+    {
+        name=landInformation.getString("name");
+        price=landInformation.getInt("landPrice");
+        priority=landInformation.getInt("priority");
+        isLand=landInformation.getBoolean("isLand");
     }
 
     public String getName() {
@@ -18,5 +29,13 @@ public class Land {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public boolean isLand() {
+        return isLand;
     }
 }

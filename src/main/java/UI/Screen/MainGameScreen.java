@@ -1,5 +1,6 @@
 package UI.Screen;
 
+import Handler.GameHandler;
 import Model.Land;
 import Model.Player;
 import UI.GameFrame;
@@ -9,6 +10,7 @@ import UI.Renderer.LandLVRenderer;
 import UI.Renderer.PlayerLVRenderer;
 import UI.Util.GameParameter;
 import org.jdesktop.jxlayer.JXLayer;
+import org.json.JSONObject;
 import org.pbjar.jxlayer.plaf.ext.transform.DefaultTransformModel;
 import org.pbjar.jxlayer.plaf.ext.transform.TransformUtils;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 
 public class MainGameScreen extends JPanel {
+    private static int indexLand=0;
     public final static int WIDTH_SCREEN=1100;
     public final static int HEIGHT_SCREEN=750;
 
@@ -32,13 +35,18 @@ public class MainGameScreen extends JPanel {
 
     private final static int ACTION_INTERVAL=100;
 
+    private static ArrayList<JSONObject> landInformationList;
+
     private int nPlayer;
     private ArrayList<Player> playerArrayList;
     private ArrayList<LandItem> landItemList;
 
+
     public MainGameScreen() throws IOException {
         nPlayer = GameParameter.getnPlayer();
         playerArrayList = new ArrayList<>();
+        landItemList=new ArrayList<>();
+        landInformationList= GameHandler.readLandList();
 
         initComponents();
         setUpOthersForComponent();
@@ -87,8 +95,8 @@ public class MainGameScreen extends JPanel {
     {
 //        System.out.println(""+startX+"-"+startY);
         //draw corner
-
-        CornerItem corner=new CornerItem();
+        Land land=new Land(landInformationList.get(indexLand++));
+        CornerItem corner=new CornerItem(land);
         try {
             int finalStartX = startX;
             int finalStartY = startY;
@@ -127,12 +135,14 @@ public class MainGameScreen extends JPanel {
         {
             startY+=(direction>0)?+CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
         }
-        System.out.println(""+startX+"-"+startY);
+        landItemList.add(corner);
+//        System.out.println(""+startX+"-"+startY);
         //draw land
         for(int i=1;i<=8;i++)
         {
             //get land from list
-            LandItem landItem=new LandItem();
+            land=new Land(landInformationList.get(indexLand++));
+            LandItem landItem=new LandItem(land);
             try {
                 int finalStartX1 = startX;
                 int finalStartY1 = startY;
@@ -171,7 +181,7 @@ public class MainGameScreen extends JPanel {
             {
                 startY+=(direction>0)?LandItem.HEIGHT_ITEM:-LandItem.HEIGHT_ITEM;
             }
-
+            landItemList.add(landItem);
         }
     }
 
@@ -185,17 +195,19 @@ public class MainGameScreen extends JPanel {
 
         playerList.setCellRenderer(new PlayerLVRenderer());
 
-        ArrayList<String> namePlayerList = Handler.GameHandle.readNameFile();
+        ArrayList<String> namePlayerList = GameHandler.readNameFile();
         for(int i = 0; i< nPlayer; i++){
             playerArrayList.add(new Player(namePlayerList.get(i), GameParameter.getMoney()));
             playerDefaultListModel.addElement(playerArrayList.get(i));
         }
 
         playerList.setEnabled(false);
+        playerList.setBackground(Color.WHITE);
         playerList.setSelectedIndex(0);
 
         landList.setCellRenderer(new LandLVRenderer());
         landList.setEnabled(false);
+
 
         showPlayerInfo(playerArrayList.get(0));
 

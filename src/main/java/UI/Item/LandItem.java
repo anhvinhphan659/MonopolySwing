@@ -21,14 +21,18 @@ public class LandItem extends JPanel implements ActionListener {
     //direction of land item
     private int direction=0;
 
-    private Land land;
+    protected Land land;
     private Player owner;
 
 
-    public LandItem()
+    public LandItem(Land land)
     {
+        this.land=land;
         setPreferredSize(new Dimension(WIDTH_ITEM,HEIGHT_ITEM));
         initComponents();
+        nameLb.setText(land.getName());
+        priceLb.setText(String.valueOf(land.getPrice()));
+
 
     }
 //    public LandItem(String name){
