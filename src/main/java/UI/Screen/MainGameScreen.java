@@ -7,20 +7,33 @@ import UI.Item.CornerItem;
 import UI.Item.LandItem;
 import UI.Renderer.LandLVRenderer;
 import UI.Renderer.PlayerLVRenderer;
+import org.jdesktop.jxlayer.JXLayer;
+import org.pbjar.jxlayer.plaf.ext.transform.DefaultTransformModel;
+import org.pbjar.jxlayer.plaf.ext.transform.TransformUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 
 public class MainGameScreen extends JPanel {
     public final static int WIDTH_SCREEN=1100;
     public final static int HEIGHT_SCREEN=750;
+
+    private final static int START_BOARD_POS_X=25;
+    private final static int START_BOARD_POS_Y=25;
+
+    private final static int ACTION_INTERVAL=100;
+
     public MainGameScreen()
     {
         initComponents();
         setUpOthersForComponent();
+        drawGameBoard();
+
     }
 
     private void setUpActions()
@@ -34,55 +47,19 @@ public class MainGameScreen extends JPanel {
             }
         });
 
-        Thread t=new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                int pos_x=125;
 
 
-                for (int i=0;i<8;i++)
-                {
-                    LandItem item=new LandItem();
-                    item.setBounds(50,pos_x,LandItem.WIDTH_ITEM,LandItem.HEIGHT_ITEM);
-                    try {
-                        Thread.sleep(250);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.out.println("add new item");
-                                gamePanel.add(item,0);
-                                gamePanel.repaint();
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
 
-
-                    pos_x+=LandItem.HEIGHT_ITEM;
-                }
-            }
-        };
-        t.start();
-
-
-        CornerItem corner1=new CornerItem();
-        corner1.setBounds(50,25,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
-        gamePanel.add(corner1,0);
-
-        CornerItem corner2=new CornerItem();
-        corner2.setBounds(50,500,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
-        gamePanel.add(corner2,0);
+//        CornerItem corner1=new CornerItem();
+//        corner1.setBounds(50,25,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+//        gamePanel.add(corner1,0);
+//
+//        CornerItem corner2=new CornerItem();
+//        corner2.setBounds(50,500,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+//        gamePanel.add(corner2,0);
 
         JLabel testLB=new JLabel("test");
-        testLB.setBounds(50,525,120,40);
+//        testLB.setBounds(50,525,120,40);
 //        gamePanel.add(testLB,2);
 
         // TODO: Add action for other game logic button
@@ -90,6 +67,119 @@ public class MainGameScreen extends JPanel {
 
 
     }
+    private void drawGameBoard()
+    {
+        Thread t=new Thread(){
+            @Override
+            public void run() {
+                int board_x = START_BOARD_POS_X;
+                int board_y = START_BOARD_POS_Y;
+
+                drawLaneLine(1, new ArrayList<>(), board_x, board_y);
+                board_x+=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
+                drawLaneLine(2, new ArrayList<>(), board_x, board_y);
+                board_y+=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
+                drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
+                board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
+                drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
+
+            }
+        };
+        t.start();
+    }
+
+    private void drawLaneLine(int direction, ArrayList<Land> l,int startX,int startY)
+    {
+        System.out.println(""+startX+"-"+startY);
+        //draw corner
+        CornerItem corner=new CornerItem();
+        try {
+            int finalStartX = startX;
+            int finalStartY = startY;
+            DefaultTransformModel transformModel=new DefaultTransformModel();
+            transformModel.setRotation(Math.toRadians(direction*90));
+            transformModel.setScale(1);
+            if(direction%2==0)
+                transformModel.setScale(-1);
+            JXLayer<JComponent> rotateCorner=TransformUtils.createTransformJXLayer(corner,transformModel);
+
+
+            rotateCorner.setBounds(finalStartX, finalStartY,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+            SwingUtilities.invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                    gamePanel.add(rotateCorner);
+                    gamePanel.repaint();
+                    System.out.println("Draw corner");
+                    try {
+                        Thread.sleep(ACTION_INTERVAL);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        if(direction%2!=0)
+        {
+            startX+=(direction>0)?CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
+        }
+        else
+        {
+            startY+=(direction>0)?+CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
+        }
+        System.out.println(""+startX+"-"+startY);
+        //draw land
+        for(int i=1;i<=8;i++)
+        {
+            //get land from list
+            LandItem landItem=new LandItem();
+            try {
+                int finalStartX1 = startX;
+                int finalStartY1 = startY;
+                DefaultTransformModel transformModel=new DefaultTransformModel();
+                transformModel.setRotation(Math.toRadians(direction*90));
+                transformModel.setScale(1);
+                JXLayer<JComponent> rotateLandItem=TransformUtils.createTransformJXLayer(landItem,transformModel);
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    @Override
+                    public void run() {
+                        rotateLandItem.setBounds(finalStartX1,finalStartY1,CornerItem.HEIGHT_ITEM,CornerItem.WIDTH_ITEM);
+                        gamePanel.add(rotateLandItem);
+                        gamePanel.repaint();
+
+                        System.out.println("Draw land");
+                        System.out.println(""+finalStartX1+"-"+finalStartY1);
+                        try {
+
+                            Thread.sleep(ACTION_INTERVAL);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            if(direction%2!=0)
+            {
+                startX+=(direction>0)?LandItem.HEIGHT_ITEM:-LandItem.HEIGHT_ITEM;
+            }
+            else
+            {
+                startY+=(direction>0)?LandItem.HEIGHT_ITEM:-LandItem.HEIGHT_ITEM;
+            }
+
+        }
+    }
+
+
     private void setUpOthersForComponent()
     {
         playerDefaultListModel=new DefaultListModel<>();

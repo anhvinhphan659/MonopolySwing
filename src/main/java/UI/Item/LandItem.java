@@ -1,9 +1,14 @@
 package UI.Item;
 
+import Model.Land;
+import Model.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public class LandItem extends JPanel implements ActionListener {
     public static final int WIDTH_ITEM=100;
@@ -18,9 +23,16 @@ public class LandItem extends JPanel implements ActionListener {
     //direction of land item
     private int direction=0;
 
+    private Land land;
+    private Player owner;
+
+    Graphics2D g2d;
+
     public LandItem()
     {
+        setPreferredSize(new Dimension(WIDTH_ITEM,HEIGHT_ITEM));
         initComponents();
+
     }
 
     private void initComponents() {
@@ -76,5 +88,14 @@ public class LandItem extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(nameLb);
+    }
+
+
+    public JPanel getColorpanel() {
+        return colorpanel;
+    }
+
+    public void setColorpanel(JPanel colorpanel) {
+        this.colorpanel = colorpanel;
     }
 }

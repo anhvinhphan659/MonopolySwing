@@ -18,6 +18,8 @@ public class CornerItem extends LandItem{
 
         setLayout(new BorderLayout());
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        setSize(new Dimension(HEIGHT_ITEM,WIDTH_ITEM));
+        setPreferredSize(new Dimension(HEIGHT_ITEM,WIDTH_ITEM));
 
         add(imageLb,BorderLayout.CENTER);
     }
