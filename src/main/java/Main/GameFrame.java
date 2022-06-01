@@ -1,4 +1,4 @@
-package UI;
+package Main;
 
 import UI.Screen.StartScreen;
 

@@ -1,4 +1,4 @@
-package UI.Util;
+package Model;
 
 public class GameParameter {
     private static int nPlayer = 2;

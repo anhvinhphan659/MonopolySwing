@@ -1,14 +1,16 @@
 package UI.Screen;
 
 import Handler.GameHandler;
+import Main.GameFrame;
 import Model.Land;
 import Model.Player;
-import UI.GameFrame;
 import UI.Item.CornerItem;
 import UI.Item.LandItem;
 import UI.Renderer.LandLVRenderer;
 import UI.Renderer.PlayerLVRenderer;
-import UI.Util.GameParameter;
+import Model.GameParameter;
+import UI.Util.DisplayAction;
+import com.github.weisj.darklaf.listener.MouseClickListener;
 import org.jdesktop.jxlayer.JXLayer;
 import org.json.JSONObject;
 import org.pbjar.jxlayer.plaf.ext.transform.DefaultTransformModel;
@@ -20,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -85,6 +88,22 @@ public class MainGameScreen extends JPanel {
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
+                JLabel t=new JLabel("Test");
+                t.setBackground(Color.RED);
+                t.setBounds(50,50,30,30);
+                try {
+                    SwingUtilities.invokeAndWait(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameLayerPanel.add(t,Integer.valueOf(3));
+                            gameLayerPanel.repaint();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
 
             }
         };
@@ -109,11 +128,19 @@ public class MainGameScreen extends JPanel {
 
 
             rotateCorner.setBounds(finalStartX, finalStartY,CornerItem.WIDTH_ITEM,CornerItem.HEIGHT_ITEM);
+            // TODO: add mouse listener for rotate corner and rotate land
+//            Land finalLand = land;
+//            rotateCorner.addMouseListener(new MouseClickListener() {
+//                @Override
+//                public void mouseClicked(MouseEvent mouseEvent) {
+//                    DisplayAction.showLandInformation(finalLand);
+//                }
+//            });
             SwingUtilities.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    gamePanel.add(rotateCorner);
-                    gamePanel.repaint();
+                    gameLayerPanel.add(rotateCorner,JLayeredPane.DEFAULT_LAYER);
+                    gameLayerPanel.repaint();
                     System.out.println("Draw corner");
                     try {
                         Thread.sleep(ACTION_INTERVAL);
@@ -150,12 +177,19 @@ public class MainGameScreen extends JPanel {
                 transformModel.setRotation(Math.toRadians(direction*90));
                 transformModel.setScale(1);
                 JXLayer<JComponent> rotateLandItem=TransformUtils.createTransformJXLayer(landItem,transformModel);
+                Land finalLand = land;
+                rotateLandItem.addMouseListener(new MouseClickListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent mouseEvent) {
+                        DisplayAction.showLandInformation(finalLand);
+                    }
+                });
                 SwingUtilities.invokeAndWait(new Runnable() {
                     @Override
                     public void run() {
                         rotateLandItem.setBounds(finalStartX1,finalStartY1,CornerItem.HEIGHT_ITEM,CornerItem.WIDTH_ITEM);
-                        gamePanel.add(rotateLandItem);
-                        gamePanel.repaint();
+                        gameLayerPanel.add(rotateLandItem,JLayeredPane.DEFAULT_LAYER);
+                        gameLayerPanel.repaint();
 
                         System.out.println("Draw land");
                         System.out.println(""+finalStartX1+"-"+finalStartY1);
@@ -168,6 +202,8 @@ public class MainGameScreen extends JPanel {
 
                     }
                 });
+
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -187,6 +223,10 @@ public class MainGameScreen extends JPanel {
 
 
     private void setUpOthersForComponent() throws IOException {
+        gameLayerPanel=new JLayeredPane();
+        gamePanel.setLayout(new BorderLayout());
+        gamePanel.add(gameLayerPanel,BorderLayout.CENTER);
+
         playerDefaultListModel=new DefaultListModel<>();
         landDefaultListModel=new DefaultListModel<>();
 
@@ -384,4 +424,6 @@ public class MainGameScreen extends JPanel {
     private DefaultListModel<Player> playerDefaultListModel;
     private DefaultListModel<Land> landDefaultListModel;
 
+    //layerpane
+    JLayeredPane gameLayerPanel;
 }

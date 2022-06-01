@@ -2,15 +2,17 @@ package UI.Item;
 
 import Model.Land;
 import Model.Player;
+import com.github.weisj.darklaf.listener.MouseClickListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-public class LandItem extends JPanel implements ActionListener {
+public class LandItem extends JPanel implements MouseClickListener {
     public static final int WIDTH_ITEM=100;
     public static final int HEIGHT_ITEM=50;
     //color of land
@@ -32,6 +34,7 @@ public class LandItem extends JPanel implements ActionListener {
         initComponents();
         nameLb.setText(land.getName());
         priceLb.setText(String.valueOf(land.getPrice()));
+        requestFocus();
 
 
     }
@@ -95,10 +98,7 @@ public class LandItem extends JPanel implements ActionListener {
     private javax.swing.JLabel nameLb;
     private javax.swing.JLabel priceLb;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println(nameLb);
-    }
+
 
 
     public JPanel getColorpanel() {
@@ -107,5 +107,10 @@ public class LandItem extends JPanel implements ActionListener {
 
     public void setColorpanel(JPanel colorpanel) {
         this.colorpanel = colorpanel;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println("Click on "+land.getName());
     }
 }

@@ -1,7 +1,7 @@
 package UI.Screen;
 
-import UI.GameFrame;
-import UI.Util.GameParameter;
+import Main.GameFrame;
+import Model.GameParameter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
