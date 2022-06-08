@@ -6,6 +6,7 @@ import Model.Land;
 import Model.Player;
 import UI.Item.CornerItem;
 import UI.Item.LandItem;
+import UI.Item.PlayerItem;
 import UI.Renderer.LandLVRenderer;
 import UI.Renderer.PlayerLVRenderer;
 import Model.GameParameter;
@@ -257,6 +258,8 @@ public class MainGameScreen extends JPanel {
                 showPlayerInfo(playerList.getSelectedValue());
             }
         });
+        PlayerItem pi=new PlayerItem(new Player("name",1000));
+        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
 
     }
 
