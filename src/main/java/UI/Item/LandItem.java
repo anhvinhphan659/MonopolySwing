@@ -19,10 +19,7 @@ public class LandItem extends JPanel implements MouseClickListener {
     private Color landColor;
     //store position (x,y) of item
     //land consists of land for house and land for utilities
-    private boolean isLand=true;
     //direction of land item
-    private int direction=0;
-
     protected Land land;
     private Player owner;
 
@@ -93,9 +90,8 @@ public class LandItem extends JPanel implements MouseClickListener {
 
 
     private javax.swing.JPanel colorpanel;
-    private javax.swing.JLabel imageLb;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel nameLb;
+    protected javax.swing.JLabel nameLb;
     private javax.swing.JLabel priceLb;
 
 
@@ -112,5 +108,13 @@ public class LandItem extends JPanel implements MouseClickListener {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         System.out.println("Click on "+land.getName());
+    }
+
+    public Land getLand() {
+        return land;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }

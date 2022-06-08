@@ -1,5 +1,7 @@
 package Handler;
 
+import Model.Player;
+import UI.Item.LandItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -53,5 +55,10 @@ public class GameHandler {
         return ret;
     }
 
+    public static void handle(Player player, LandItem landItem){
+        if(landItem.getLand().isLand()){
+
+        }
+    }
 
 }

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 
 public class MainGameScreen extends JPanel {
-    private static int indexLand=0;
+    private int indexLand=0;
     public final static int WIDTH_SCREEN=1100;
     public final static int HEIGHT_SCREEN=750;
 
@@ -89,22 +89,22 @@ public class MainGameScreen extends JPanel {
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
-                JLabel t=new JLabel("Test");
-                t.setBackground(Color.RED);
-                t.setBounds(50,50,30,30);
-                try {
-                    SwingUtilities.invokeAndWait(new Runnable() {
-                        @Override
-                        public void run() {
-                            gameLayerPanel.add(t,Integer.valueOf(3));
-                            gameLayerPanel.repaint();
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
+//                JLabel t=new JLabel("Test");
+//                t.setBackground(Color.RED);
+//                t.setBounds(50,50,30,30);
+//                try {
+//                    SwingUtilities.invokeAndWait(new Runnable() {
+//                        @Override
+//                        public void run() {
+////                            gameLayerPanel.add(t,Integer.valueOf(3));
+//                            gameLayerPanel.repaint();
+//                        }
+//                    });
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                }
 
             }
         };
@@ -258,8 +258,8 @@ public class MainGameScreen extends JPanel {
                 showPlayerInfo(playerList.getSelectedValue());
             }
         });
-        PlayerItem pi=new PlayerItem(new Player("name",1000));
-        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
+//        PlayerItem pi=new PlayerItem(new Player("name",1000));
+//        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
 
     }
 

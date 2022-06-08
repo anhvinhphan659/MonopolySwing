@@ -8,10 +8,13 @@ import java.awt.*;
 public class CornerItem extends LandItem{
     public static final int WIDTH_ITEM=100;
     public static final int HEIGHT_ITEM=100;
+
     public CornerItem(Land land)
     {
         super(land);
         initComponents();
+
+        imageLb.setText(land.getName());
     }
 
 
