@@ -44,6 +44,7 @@ public class MainGameScreen extends JPanel {
     private int nPlayer;
     private ArrayList<Player> playerArrayList;
     private ArrayList<LandItem> landItemList;
+    private ArrayList<PlayerItem> playerItems;
 
 
     public MainGameScreen() throws IOException {
@@ -51,6 +52,7 @@ public class MainGameScreen extends JPanel {
         playerArrayList = new ArrayList<>();
         landItemList=new ArrayList<>();
         landInformationList= GameHandler.readLandList();
+        playerItems=new ArrayList<>();
 
         initComponents();
         setUpOthersForComponent();
@@ -88,24 +90,8 @@ public class MainGameScreen extends JPanel {
                 board_y+=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
-                drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
-//                JLabel t=new JLabel("Test");
-//                t.setBackground(Color.RED);
-//                t.setBounds(50,50,30,30);
-//                try {
-//                    SwingUtilities.invokeAndWait(new Runnable() {
-//                        @Override
-//                        public void run() {
-////                            gameLayerPanel.add(t,Integer.valueOf(3));
-//                            gameLayerPanel.repaint();
-//                        }
-//                    });
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-
+                drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
+//
             }
         };
         t.start();
@@ -223,6 +209,8 @@ public class MainGameScreen extends JPanel {
     }
 
 
+
+
     private void setUpOthersForComponent() throws IOException {
         gameLayerPanel=new JLayeredPane();
         gamePanel.setLayout(new BorderLayout());
@@ -258,8 +246,23 @@ public class MainGameScreen extends JPanel {
                 showPlayerInfo(playerList.getSelectedValue());
             }
         });
-//        PlayerItem pi=new PlayerItem(new Player("name",1000));
-//        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
+        PlayerItem pi=new PlayerItem(new Player("name",1000));
+        pi.setBounds(30,30,30,30);
+        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
+
+        JButton moveBtn=new JButton("Move");
+        moveBtn.setBounds(200,200,100,40);
+        gameLayerPanel.add(moveBtn);
+
+        moveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: move player here
+                DisplayAction.movePlayer(gameLayerPanel,pi);
+
+            }
+        });
+
 
     }
 
@@ -426,6 +429,7 @@ public class MainGameScreen extends JPanel {
     //model list view
     private DefaultListModel<Player> playerDefaultListModel;
     private DefaultListModel<Land> landDefaultListModel;
+
 
     //layerpane
     JLayeredPane gameLayerPanel;
