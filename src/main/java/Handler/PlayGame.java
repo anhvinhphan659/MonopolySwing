@@ -1,5 +1,6 @@
 package Handler;
 
+import Model.Chance;
 import Model.Player;
 import UI.Item.LandItem;
 import UI.Screen.MainGameScreen;
@@ -14,7 +15,7 @@ public class PlayGame {
         this.mainGameScreen = mainGameScreen;
     }
 
-    public void play(ArrayList<Player> playerArrayList, ArrayList<LandItem> landItemList){
+    public void play(ArrayList<Player> playerArrayList, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
         while (true){
             int i = mainGameScreen.nextPlayer();
 

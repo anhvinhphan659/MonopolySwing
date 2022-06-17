@@ -1,7 +1,9 @@
 package UI.Screen;
 
 import Handler.GameHandler;
+import Handler.PlayGame;
 import Main.GameFrame;
+import Model.Chance;
 import Model.Land;
 import Model.Player;
 import UI.Item.CornerItem;
@@ -30,7 +32,8 @@ import java.util.ArrayList;
 
 
 public class MainGameScreen extends JPanel {
-    private int indexLand=0;
+    private  int indexLand=0;
+    private int playingIndex = -1;
     public final static int WIDTH_SCREEN=1100;
     public final static int HEIGHT_SCREEN=750;
 
@@ -40,11 +43,13 @@ public class MainGameScreen extends JPanel {
     private final static int ACTION_INTERVAL=100;
 
     private static ArrayList<JSONObject> landInformationList;
+    private static ArrayList<JSONObject> chanceInformationList;
 
     private int nPlayer;
     private ArrayList<Player> playerArrayList;
     private ArrayList<LandItem> landItemList;
     private ArrayList<PlayerItem> playerItems;
+    private ArrayList<Chance> chanceList;
 
 
     public MainGameScreen() throws IOException {
@@ -53,10 +58,15 @@ public class MainGameScreen extends JPanel {
         landItemList=new ArrayList<>();
         landInformationList= GameHandler.readLandList();
         playerItems=new ArrayList<>();
+        initChanceList();
+
 
         initComponents();
         setUpOthersForComponent();
         drawGameBoard();
+
+        PlayGame play = new PlayGame(this);
+//        play.play(playerArrayList, landItemList, chanceList);
 
     }
 
@@ -398,6 +408,14 @@ public class MainGameScreen extends JPanel {
         setUpActions();
     }
 
+    private void initChanceList(){
+        chanceInformationList = GameHandler.readChanceList();
+        chanceList = new ArrayList<>();
+        for(int i = 0; i < chanceInformationList.size(); i++){
+            chanceList.add(new Chance(chanceInformationList.get(i)));
+        }
+    }
+
     private void showPlayerInfo(Player player){
         moneyLb.setText(String.valueOf(player.getMoney()));
         landDefaultListModel.removeAllElements();
@@ -407,17 +425,17 @@ public class MainGameScreen extends JPanel {
     }
 
     public int nextPlayer(){
-        int nextPlayerIndex = playerList.getSelectedIndex() + 1;
+        playingIndex++;
 
-        if(nextPlayerIndex == nPlayer){
-            nextPlayerIndex = 0;
+        if(playingIndex == nPlayer){
+            playingIndex = 0;
         }
 
-        playerList.setSelectedIndex(nextPlayerIndex);
+        playerList.setSelectedIndex(playingIndex);
 
         showPlayerInfo(playerList.getSelectedValue());
 
-        return nextPlayerIndex;
+        return playingIndex;
     }
 
     private javax.swing.JButton backBtn;

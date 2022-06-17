@@ -18,6 +18,8 @@ import java.util.Random;
 
 public class GameHandler {
     public final static String PATH_NAME_FILE = "resources/names.txt";
+    public static final String LAND_SOURCE_FILE="resources/lands.json";
+    public static final String CHANCE_SOURCE_FILE="resources/chances.json";
     public static ArrayList<String> readNameFile() throws IOException {
         ArrayList<String> nameList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(PATH_NAME_FILE))));
@@ -32,7 +34,6 @@ public class GameHandler {
         }
         return nameList;
     }
-    public static final String LAND_SOURCE_FILE="resources/lands.json";
     public static ArrayList<JSONObject> readLandList()
     {
         ArrayList<JSONObject> ret=new ArrayList<>();
@@ -58,6 +59,31 @@ public class GameHandler {
         return ret;
     }
 
+    public static ArrayList<JSONObject> readChanceList()
+    {
+        ArrayList<JSONObject> chanceList=new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(CHANCE_SOURCE_FILE));
+            String data="";
+            String line;
+            while((line= br.readLine())!=null)
+            {
+                data+=line;
+            }
+            JSONArray landArr = new JSONArray(data);
+            for (int i = 0; i < landArr.length();i++)
+            {
+                chanceList.add(landArr.getJSONObject(i));
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return chanceList;
+    }
+
     public static void move(Player player, ArrayList<LandItem> landItemList){
         Random rd = new Random();
         int dice1 = rd.nextInt(6) + 1;
@@ -70,7 +96,7 @@ public class GameHandler {
                 player.setInPrison(false);
             }
             else{
-                // Todo: Xử lý khi đi tù
+                // TODO: Xử lý khi đi tù
             }
         }
         else{
