@@ -12,7 +12,7 @@ public class DisplayAction {
     public static void showLandInformation(Land land)
     {
         LandInformationPanel informationPane=new LandInformationPanel(land);
-        JOptionPane.showMessageDialog(null,informationPane,land.getName()+"'s Information",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,informationPane,land.getName()+"'s Information",JOptionPane.UNDEFINED_CONDITION);
     }
 
     public static void movePlayer(JLayeredPane desPanel, PlayerItem pi)
