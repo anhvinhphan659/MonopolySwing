@@ -2,7 +2,11 @@ package Model;
 
 import org.json.JSONObject;
 
+import java.awt.*;
+
 public class Land {
+    public static final Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.PINK, Color.GRAY};
+
     private String name;
     private int price;
     private int priority;

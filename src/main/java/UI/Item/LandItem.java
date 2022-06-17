@@ -47,7 +47,10 @@ public class LandItem extends JPanel implements MouseClickListener {
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         setLayout(new java.awt.BorderLayout());
 
-        colorpanel.setBackground(new java.awt.Color(255, 255, 51));
+//        colorpanel.setBackground(new java.awt.Color(255, 255, 51));
+        if(land.getPriority() > 0){
+            colorpanel.setBackground(Land.colors[land.getPriority() - 1]);
+        }
         colorpanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         colorpanel.setPreferredSize(new java.awt.Dimension(20, 20));
 

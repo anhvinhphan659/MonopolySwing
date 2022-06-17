@@ -88,26 +88,51 @@ public class GameHandler {
         Random rd = new Random();
         int dice1 = rd.nextInt(6) + 1;
         int dice2 = rd.nextInt(6) + 1;
-        System.out.println(dice1 + " + " + dice2 + " = " + (dice1 + dice2));
 
         if (player.isInPrison()){
             if (dice1 == dice2){
-                JOptionPane.showMessageDialog(null, "Bạn đã được ra tù");
+                JOptionPane.showMessageDialog(null, "You are released from prison");
                 player.setInPrison(false);
+                player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
             }
             else{
                 // TODO: Xử lý khi đi tù
+                int result;
+                if (player.getMoney() >= 200){
+                    result = JOptionPane.showConfirmDialog(null, "Do you want to pay 200$ for the prison to be released?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
+
+                    if(result == JOptionPane.YES_OPTION){
+                        player.setInPrison(false);
+                        player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+                    }
+                }
+                else{
+                    Object[] options = {"Sell houses", "Mortage lands", "No"};
+                    result = JOptionPane.showOptionDialog(null,"Your money isn't enought to pay for the prison to be released. Do uou want sell house or mortage lands?",
+                            "Confirm",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]);
+                    if(result == JOptionPane.YES_OPTION){
+                        sellHouse();
+                    }else{
+                        if (result == JOptionPane.NO_OPTION){
+                            mortageLand();
+                        }
+                    }
+                }
             }
         }
         else{
             player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+        }
 
-            if (player.getCurrentLocation() >= landItemList.size()){
-                JOptionPane.showMessageDialog(null, "Bạn đã qua trạm khỏi hành và nhận được 200$.");
-                player.setMoney(player.getMoney() + 200);
-                player.setCurrentLocation(player.getCurrentLocation() - landItemList.size());
-
-            }
+        if (player.getCurrentLocation() >= landItemList.size()){
+            JOptionPane.showMessageDialog(null, "You have passed the target house and received $ 200.");
+            player.setMoney(player.getMoney() + 200);
+            player.setCurrentLocation(player.getCurrentLocation() - landItemList.size());
         }
 
     }
@@ -116,7 +141,7 @@ public class GameHandler {
 
         if(landItem.getLand().isLand()){
             if(landItem.getOwner() == null && player.getMoney() > landItem.getLand().getPrice()){
-                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn mua ô đất " + landItem.getLand().getName() + " không?", "Mua đất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
+                int choice = JOptionPane.showConfirmDialog(null, "Do you want to buy " + landItem.getLand().getName() + " land?", "Buy land", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
 
                 if (choice == JOptionPane.YES_OPTION){
                     player.setMoney(player.getMoney() - landItem.getLand().getPrice());
@@ -127,12 +152,10 @@ public class GameHandler {
         }
         else{
             switch (landItem.getLand().getPriority()){
-                case -1:
-                    JOptionPane.showMessageDialog(null, "Bạn đã đến đích, được thưởng 200$");
-                    player.setMoney(player.getMoney() + 200);
-                    break;
+//                case -1:
+//                    break;
                 case -4:
-                    JOptionPane.showMessageDialog(null, "Bạn bị vào tù");
+                    JOptionPane.showMessageDialog(null, "You are locked in prison");
                     player.setCurrentLocation(9);
                     player.setInPrison(true);
                     break;
@@ -144,5 +167,8 @@ public class GameHandler {
             }
         }
     }
+
+    public static void sellHouse(){};
+    public static void mortageLand(){};
 
 }

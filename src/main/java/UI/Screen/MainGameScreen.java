@@ -65,9 +65,8 @@ public class MainGameScreen extends JPanel {
         setUpOthersForComponent();
         drawGameBoard();
 
-        PlayGame play = new PlayGame(this);
+//        PlayGame play = new PlayGame(this);
 //        play.play(playerArrayList, landItemList, chanceList);
-
     }
 
     private void setUpActions()
@@ -101,6 +100,9 @@ public class MainGameScreen extends JPanel {
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
+
+                play();
+
             }
         };
         t.start();
@@ -277,6 +279,8 @@ public class MainGameScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: handle done action
+                play();
+
             }
         });
 
@@ -412,9 +416,9 @@ public class MainGameScreen extends JPanel {
     private void showPlayerInfo(Player player){
         moneyLb.setText(String.valueOf(player.getMoney()));
         landDefaultListModel.removeAllElements();
-//        for(LandItem item: player.getLandList()){
-//            landDefaultListModel.addElement(item.getLand());
-//        }
+        for(LandItem item: player.getLandList()){
+            landDefaultListModel.addElement(item.getLand());
+        }
     }
 
     public int nextPlayer(){
@@ -429,6 +433,15 @@ public class MainGameScreen extends JPanel {
         showPlayerInfo(playerList.getSelectedValue());
 
         return playingIndex;
+    }
+
+    private void play(){
+        int i = nextPlayer();
+
+        Player player = playerArrayList.get(i);
+        JOptionPane.showMessageDialog(null, "Đến lượt của " + player.getName());
+        GameHandler.move(player, landItemList);
+        GameHandler.handle(player, landItemList);
     }
 
     private javax.swing.JButton backBtn;
