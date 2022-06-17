@@ -90,24 +90,7 @@ public class MainGameScreen extends JPanel {
                 board_y+=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
-                drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
-//                JLabel t=new JLabel("Test");
-//                t.setBackground(Color.RED);
-//                t.setBounds(50,50,30,30);
-//                try {
-//                    SwingUtilities.invokeAndWait(new Runnable() {
-//                        @Override
-//                        public void run() {
-////                            gameLayerPanel.add(t,Integer.valueOf(3));
-//                            gameLayerPanel.repaint();
-//                        }
-//                    });
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-
+                drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
             }
         };
         t.start();
@@ -274,6 +257,16 @@ public class MainGameScreen extends JPanel {
                 // TODO: move player here
                 DisplayAction.movePlayer(gameLayerPanel,pi);
 
+            }
+        });
+
+        doneBtn=new JButton("DONE");
+        doneBtn.setBounds(275,275,100,50);
+        gameLayerPanel.add(doneBtn,JLayeredPane.DEFAULT_LAYER);
+        doneBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: handle done action
             }
         });
 
@@ -448,4 +441,6 @@ public class MainGameScreen extends JPanel {
 
     //layerpane
     JLayeredPane gameLayerPanel;
+
+    private JButton doneBtn;
 }
