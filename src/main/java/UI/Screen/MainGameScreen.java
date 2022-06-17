@@ -259,21 +259,13 @@ public class MainGameScreen extends JPanel {
         pi.setBounds(30,30,30,30);
         gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
 
-        JButton moveBtn=new JButton("Move");
-        moveBtn.setBounds(200,200,100,40);
-        gameLayerPanel.add(moveBtn);
+//        JButton moveBtn=new JButton("Move");
+//        moveBtn.setBounds(200,200,100,40);
+//        gameLayerPanel.add(moveBtn);
 
-        moveBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: move player here
-                DisplayAction.movePlayer(gameLayerPanel,pi);
-
-            }
-        });
 
         doneBtn=new JButton("DONE");
-        doneBtn.setBounds(275,275,100,50);
+        doneBtn.setBounds(275,300,100,40);
         gameLayerPanel.add(doneBtn,JLayeredPane.DEFAULT_LAYER);
         doneBtn.addActionListener(new ActionListener() {
             @Override
@@ -284,6 +276,29 @@ public class MainGameScreen extends JPanel {
             }
         });
 
+        diceBtn1=new JButton();
+        diceBtn2=new JButton();
+
+        diceBtn1.setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/dice1.png")));
+        diceBtn2.setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/dice6.png")));
+        diceBtn1.setBounds(250,150,64,64);
+        diceBtn2.setBounds(350,150,64,64);
+        diceBtn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDices();
+                DisplayAction.movePlayer(gameLayerPanel,pi,5);
+            }
+        });
+        diceBtn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rollDices();
+            }
+        });
+
+        gameLayerPanel.add(diceBtn1,JLayeredPane.DEFAULT_LAYER);
+        gameLayerPanel.add(diceBtn2,JLayeredPane.DEFAULT_LAYER);
 
     }
 
@@ -421,6 +436,26 @@ public class MainGameScreen extends JPanel {
         }
     }
 
+    private void rollDices()
+    {
+        int n1=DisplayAction.randomDice();
+        int n2=DisplayAction.randomDice();
+//        System.out.println(""+n1+"-"+n2);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                diceBtn1.setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/dice" +
+                        String.valueOf(n1) +
+                        ".png")));
+                diceBtn2.setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/dice" +
+                        String.valueOf(n2) +
+                        ".png")));
+            }
+        });
+        // TODO: get current player and move (using move player function in  DisplayAction )
+
+    }
+
     public int nextPlayer(){
         playingIndex++;
 
@@ -473,5 +508,8 @@ public class MainGameScreen extends JPanel {
     //layerpane
     JLayeredPane gameLayerPanel;
 
+    //other button
     private JButton doneBtn;
+    private JButton diceBtn1;
+    private JButton diceBtn2;
 }
