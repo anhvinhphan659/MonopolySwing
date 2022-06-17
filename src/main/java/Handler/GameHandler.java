@@ -1,10 +1,12 @@
 package Handler;
 
+import Model.Land;
 import Model.Player;
 import UI.Item.LandItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameHandler {
     public final static String PATH_NAME_FILE = "resources/names.txt";
@@ -55,9 +58,64 @@ public class GameHandler {
         return ret;
     }
 
-    public static void handle(Player player, LandItem landItem){
-        if(landItem.getLand().isLand()){
+    public static void move(Player player, ArrayList<LandItem> landItemList){
+        Random rd = new Random();
+        int dice1 = rd.nextInt(6) + 1;
+        int dice2 = rd.nextInt(6) + 1;
+        System.out.println(dice1 + " + " + dice2 + " = " + (dice1 + dice2));
 
+        if (player.isInPrison()){
+            if (dice1 == dice2){
+                JOptionPane.showMessageDialog(null, "Bạn đã được ra tù");
+                player.setInPrison(false);
+            }
+            else{
+                // Todo: Xử lý khi đi tù
+            }
+        }
+        else{
+            player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+
+            if (player.getCurrentLocation() >= landItemList.size()){
+                JOptionPane.showMessageDialog(null, "Bạn đã qua trạm khỏi hành và nhận được 200$.");
+                player.setMoney(player.getMoney() + 200);
+                player.setCurrentLocation(player.getCurrentLocation() - landItemList.size());
+
+            }
+        }
+
+    }
+    public static void handle(Player player, ArrayList<LandItem> landItemList){
+        LandItem landItem = landItemList.get(player.getCurrentLocation());
+
+        if(landItem.getLand().isLand()){
+            if(landItem.getOwner() == null && player.getMoney() > landItem.getLand().getPrice()){
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn mua ô đất " + landItem.getLand().getName() + " không?", "Mua đất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
+
+                if (choice == JOptionPane.YES_OPTION){
+                    player.setMoney(player.getMoney() - landItem.getLand().getPrice());
+                    landItem.setOwner(player);
+                    player.getLandList().add(landItem);
+                }
+            }
+        }
+        else{
+            switch (landItem.getLand().getPriority()){
+                case -1:
+                    JOptionPane.showMessageDialog(null, "Bạn đã đến đích, được thưởng 200$");
+                    player.setMoney(player.getMoney() + 200);
+                    break;
+                case -4:
+                    JOptionPane.showMessageDialog(null, "Bạn bị vào tù");
+                    player.setCurrentLocation(9);
+                    player.setInPrison(true);
+                    break;
+                case 0:
+                    // Todo: Xử lý khi vào ô cơ hội
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

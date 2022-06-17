@@ -94,7 +94,6 @@ public class StartScreen extends JPanel {
             }
         });
     }
-
     private javax.swing.JButton exitBtn;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;

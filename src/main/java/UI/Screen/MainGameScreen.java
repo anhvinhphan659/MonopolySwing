@@ -90,8 +90,24 @@ public class MainGameScreen extends JPanel {
                 board_y+=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
                 drawLaneLine(-1, new ArrayList<>(), board_x, board_y);
                 board_x-=CornerItem.HEIGHT_ITEM+LandItem.HEIGHT_ITEM*8;
-                drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
-//
+                drawLaneLine(-2, new ArrayList<>(), board_x, board_y);
+//                JLabel t=new JLabel("Test");
+//                t.setBackground(Color.RED);
+//                t.setBounds(50,50,30,30);
+//                try {
+//                    SwingUtilities.invokeAndWait(new Runnable() {
+//                        @Override
+//                        public void run() {
+////                            gameLayerPanel.add(t,Integer.valueOf(3));
+//                            gameLayerPanel.repaint();
+//                        }
+//                    });
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                }
+
             }
         };
         t.start();
@@ -207,8 +223,6 @@ public class MainGameScreen extends JPanel {
             landItemList.add(landItem);
         }
     }
-
-
 
 
     private void setUpOthersForComponent() throws IOException {
@@ -392,7 +406,7 @@ public class MainGameScreen extends JPanel {
 //        }
     }
 
-    private void nextPlaywer(){
+    public int nextPlayer(){
         int nextPlayerIndex = playerList.getSelectedIndex() + 1;
 
         if(nextPlayerIndex == nPlayer){
@@ -402,6 +416,8 @@ public class MainGameScreen extends JPanel {
         playerList.setSelectedIndex(nextPlayerIndex);
 
         showPlayerInfo(playerList.getSelectedValue());
+
+        return nextPlayerIndex;
     }
 
     private javax.swing.JButton backBtn;
@@ -429,7 +445,6 @@ public class MainGameScreen extends JPanel {
     //model list view
     private DefaultListModel<Player> playerDefaultListModel;
     private DefaultListModel<Land> landDefaultListModel;
-
 
     //layerpane
     JLayeredPane gameLayerPanel;
