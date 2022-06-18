@@ -48,6 +48,7 @@ public class MainGameScreen extends JPanel {
 
     private int nPlayer;
     private ArrayList<Player> playerArrayList;
+    private ArrayList<PlayerItem> playerItemsArrayList;
     private ArrayList<LandItem> landItemList;
     private ArrayList<PlayerItem> playerItems;
     private ArrayList<Chance> chanceList;
@@ -402,9 +403,19 @@ public class MainGameScreen extends JPanel {
                 showPlayerInfo(playerList.getSelectedValue());
             }
         });
-        PlayerItem pi=new PlayerItem(new Player("name",1000));
-        pi.setBounds(30,30,30,30);
-        gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
+
+        playerItemsArrayList = new ArrayList<>();
+
+        for(Player player: playerArrayList){
+            PlayerItem pi=new PlayerItem(player);
+
+            pi.setBounds(30,30,30,30);
+            gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
+
+            playerItemsArrayList.add(pi);
+        }
+//        PlayerItem pi=new PlayerItem(new Player("name",1000));
+
 
 //        JButton moveBtn=new JButton("Move");
 //        moveBtn.setBounds(200,200,100,40);
@@ -418,17 +429,23 @@ public class MainGameScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: handle done action
-                if (playerList.getSelectedValue().getMoney() >= 0){
-                    buyBtn.setEnabled(true);
-                    buildBtn.setEnabled(true);
-                    sellBtn.setEnabled(true);
-                    mortageBtn.setEnabled(true);
-                    play();
-
+                if(!isTakedDice){
+                    JOptionPane.showMessageDialog(null,playerList.getSelectedValue().getName() + ", You have not completed your turn.");
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "You still haven't paid the debt yet. Please pay off the debt before the end of the version.");
+                    if (playerList.getSelectedValue().getMoney() >= 0){
+                        buyBtn.setEnabled(true);
+                        buildBtn.setEnabled(true);
+                        sellBtn.setEnabled(true);
+                        mortageBtn.setEnabled(true);
+                        play();
+
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "You still haven't paid the debt yet. Please pay off the debt before the end of the version.");
+                    }
                 }
+
 
             }
         });
@@ -446,8 +463,8 @@ public class MainGameScreen extends JPanel {
                 if(!isTakedDice){
                     int[] dice = rollDices();
 //                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
-                    GameHandler.move(playerList.getSelectedValue(), landItemList, dice);
-                    GameHandler.handle(playerList.getSelectedValue(), landItemList, chanceList);
+                    GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
+                    GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
                     isTakedDice = true;
                 }
 
@@ -459,8 +476,8 @@ public class MainGameScreen extends JPanel {
                 if(!isTakedDice){
                     int[] dice = rollDices();
 //                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
-                    GameHandler.move(playerList.getSelectedValue(), landItemList, dice);
-                    GameHandler.handle(playerList.getSelectedValue(), landItemList, chanceList);
+                    GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
+                    GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
                     isTakedDice = true;
                 }
 
@@ -680,7 +697,7 @@ public class MainGameScreen extends JPanel {
     private DefaultListModel<Land> landDefaultListModel;
 
     //layerpane
-    JLayeredPane gameLayerPanel;
+    public static JLayeredPane gameLayerPanel;
 
     //other button
     private JButton doneBtn;

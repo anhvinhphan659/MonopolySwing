@@ -4,6 +4,9 @@ import Model.Chance;
 import Model.Land;
 import Model.Player;
 import UI.Item.LandItem;
+import UI.Item.PlayerItem;
+import UI.Screen.MainGameScreen;
+import UI.Util.DisplayAction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -85,16 +88,16 @@ public class GameHandler {
         return chanceList;
     }
 
-    public static void move(Player player, ArrayList<LandItem> landItemList, int[] dice){
+    public static void move(Player player, PlayerItem playerItem, ArrayList<LandItem> landItemList, int[] dice){
         int step = dice[0] + dice[1];
         if (player.isInPrison()){
             if (dice[0] == dice[1]){
                 JOptionPane.showMessageDialog(null, "You are released from prison");
                 player.setInPrison(false);
                 player.setCurrentLocation(player.getCurrentLocation() + step);
+                DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,step);
             }
             else{
-                // TODO: Xử lý khi đi tù
                 int result;
                 if (player.getMoney() >= 200){
                     result = JOptionPane.showConfirmDialog(null, "Do you want to pay 200$ for the prison to be released?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
@@ -103,6 +106,7 @@ public class GameHandler {
                         player.setInPrison(false);
                         player.setMoney(player.getMoney() - 200);
                         player.setCurrentLocation(player.getCurrentLocation() +  step);
+                        DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,step);
                     }
                 }
                 else{
@@ -112,6 +116,7 @@ public class GameHandler {
         }
         else{
             player.setCurrentLocation(player.getCurrentLocation() +  step);
+            DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,step);
         }
 
         if (player.getCurrentLocation() >= landItemList.size()){
@@ -121,7 +126,7 @@ public class GameHandler {
         }
 
     }
-    public static void handle(Player player, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
+    public static void handle(Player player, PlayerItem playerItem, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
         LandItem landItem = landItemList.get(player.getCurrentLocation());
 
         if(landItem.getLand().isLand()){
@@ -137,6 +142,7 @@ public class GameHandler {
             switch (landItem.getLand().getPriority()){
                 case -4:
                     JOptionPane.showMessageDialog(null, "You are locked in prison");
+                    DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,18);
                     player.setCurrentLocation(9);
                     player.setInPrison(true);
                     break;
