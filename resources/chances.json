@@ -1,8 +1,124 @@
 [
   {
-    "name": "Chance1",
+    "name": "Chance 1",
     "type": 1,
-    "value": 50,
-    "description": "Chance 's description"
+    "value": 200,
+    "description": "Get pension"
+  },
+  {
+    "name": "Chance 2",
+    "type": 1,
+    "value": 200,
+    "description": "Get overtime salary"
+  },
+  {
+  "name": "Chance 3",
+  "type": 1,
+  "value": 200,
+  "description": "Won a lottery"
+  },
+  {
+  "name": "Chance 4",
+  "type": 1,
+  "value": 200,
+  "description": "Year-end bonus"
+  },
+  {
+  "name": "Chance 5",
+  "type": 1,
+  "value": 200,
+  "description": "Receive bonus"
+  },
+  {
+    "name": "Chance 6",
+    "type": -1,
+    "value": 200,
+    "description": "Crossing the red light"
+  },
+  {
+    "name": "Chance 7",
+    "type": -1,
+    "value": 200,
+    "description": "Pay tuition for children"
+  }
+,
+  {
+    "name": "Chance 8",
+    "type": -1,
+    "value": 200,
+    "description": "Taxpayer"
+  },
+  {
+    "name": "Chance 9",
+    "type": 0,
+    "value": 0,
+    "description": "Go to jail"
+  },
+  {
+    "name": "Chance 10",
+    "type": 1,
+    "value": 200,
+    "description": "Receive subsidies"
+  },
+  {
+    "name": "Chance 11",
+    "type": -1,
+    "value": 200,
+    "description": "Pay electricity and wate"
+  },
+  {
+    "name": "Chance 12",
+    "type": -1,
+    "value": 200,
+    "description": "Passing the allowed speed"
+  },
+  {
+    "name": "Chance 13",
+    "type": 1,
+    "value": 200,
+    "description": "Get monthly salary"
+  },
+  {
+    "name": "Chance 14",
+    "type": -1,
+    "value": 200,
+    "description": "Pay for insurance"
+  },
+  {
+    "name": "Chance 15",
+    "type": 0,
+    "value": 0,
+    "description": "Go to jail"
+  },
+  {
+    "name": "Chance 16",
+    "type": -1,
+    "value": 200,
+    "description": "Pay money to support the poor"
+  },
+  {
+    "name": "Chance 17",
+    "type": 1,
+    "value": 200,
+    "description": "Receive birthday gifts"
+  }
+,
+  {
+    "name": "Chance 18",
+    "type": -1,
+    "value": 200,
+    "description": "Give gifts to the family"
+  },
+  {
+    "name": "Chance 19",
+    "type": -1,
+    "value": 200,
+    "description": "Pay for medical examination"
+  },
+  {
+    "name": "Chance 20",
+    "type": 1,
+    "value": 200,
+    "description": "Get lucky money"
   }
 ]

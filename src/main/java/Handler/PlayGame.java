@@ -15,14 +15,14 @@ public class PlayGame {
         this.mainGameScreen = mainGameScreen;
     }
 
-    public void play(ArrayList<Player> playerArrayList, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
-        while (true){
-            int i = mainGameScreen.nextPlayer();
-
-            Player player = playerArrayList.get(i);
-            JOptionPane.showMessageDialog(null, "Đến lượt của " + player.getName());
-            GameHandler.move(player, landItemList);
-            GameHandler.handle(player, landItemList);
-        }
-    }
+//    public void play(ArrayList<Player> playerArrayList, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
+//        while (true){
+//            int i = mainGameScreen.nextPlayer();
+//
+//            Player player = playerArrayList.get(i);
+//            JOptionPane.showMessageDialog(null, "Đến lượt của " + player.getName());
+//            GameHandler.move(player, landItemList);
+//            GameHandler.handle(player, landItemList);
+//        }
+//    }
 }

@@ -1,5 +1,6 @@
 package Handler;
 
+import Model.Chance;
 import Model.Land;
 import Model.Player;
 import UI.Item.LandItem;
@@ -84,16 +85,24 @@ public class GameHandler {
         return chanceList;
     }
 
-    public static void move(Player player, ArrayList<LandItem> landItemList){
+    public static int[] step(){
         Random rd = new Random();
         int dice1 = rd.nextInt(6) + 1;
         int dice2 = rd.nextInt(6) + 1;
 
+        return new int[] {dice1, dice2};
+    }
+
+    public static void move(Player player, ArrayList<LandItem> landItemList){
+        int[] dice = step();
+
+        System.out.println(dice[0] + " + " + dice[1] + " = " + (dice[0] + dice[1]));
+
         if (player.isInPrison()){
-            if (dice1 == dice2){
+            if (dice[0] == dice[1]){
                 JOptionPane.showMessageDialog(null, "You are released from prison");
                 player.setInPrison(false);
-                player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+                player.setCurrentLocation(player.getCurrentLocation() + dice[0] + dice[1]);
             }
             else{
                 // TODO: Xử lý khi đi tù
@@ -103,8 +112,8 @@ public class GameHandler {
 
                     if(result == JOptionPane.YES_OPTION){
                         player.setInPrison(false);
-                        player.setCurrentLocation(player.getCurrentLocation() - 200);
-                        player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+                        player.setMoney(player.getMoney() - 200);
+                        player.setCurrentLocation(player.getCurrentLocation() +  dice[0] + dice[1]);
                     }
                 }
                 else{
@@ -113,7 +122,7 @@ public class GameHandler {
             }
         }
         else{
-            player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
+            player.setCurrentLocation(player.getCurrentLocation() +  dice[0] + dice[1]);
         }
 
         if (player.getCurrentLocation() >= landItemList.size()){
@@ -123,38 +132,33 @@ public class GameHandler {
         }
 
     }
-    public static void handle(Player player, ArrayList<LandItem> landItemList){
+    public static void handle(Player player, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
         LandItem landItem = landItemList.get(player.getCurrentLocation());
 
         if(landItem.getLand().isLand()){
-            if(landItem.getOwner() == null && player.getMoney() > landItem.getLand().getPrice()){
-                int choice = JOptionPane.showConfirmDialog(null, "Do you want to buy " + landItem.getLand().getName() + " land?", "Buy land", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
-
-                if (choice == JOptionPane.YES_OPTION){
-                    player.setMoney(player.getMoney() - landItem.getLand().getPrice());
-                    landItem.setOwner(player);
-                    player.getLandList().add(landItem);
-                }
-            }
-            else{
-                player.setMoney(player.getMoney() - landItem.getRent());
-                if(player.getMoney() < 0){
-                    JOptionPane.showMessageDialog(null, "You do not have enough money to pay rent");
-
+            if(landItem.getOwner() != null) {
+                if (landItem.getOwner() != player && landItem.isMortgage() == false) {
+                    JOptionPane.showMessageDialog(null, "You have to pay rent for " + landItem.getOwner().getName());
+                    player.setMoney(player.getMoney() - landItem.getRent());
+                    checkMoney(player);
                 }
             }
         }
         else{
             switch (landItem.getLand().getPriority()){
-//                case -1:
-//                    break;
                 case -4:
                     JOptionPane.showMessageDialog(null, "You are locked in prison");
                     player.setCurrentLocation(9);
                     player.setInPrison(true);
                     break;
                 case 0:
-                    // Todo: Xử lý khi vào ô cơ hội
+                    Random rd = new Random();
+                    int chanceIndex = rd.nextInt(chanceList.size());
+                    Chance chance = chanceList.get(chanceIndex);
+
+                    JOptionPane.showMessageDialog(null,chance.getDescription() + ": " + String.valueOf(chance.getType() * chance.getValue()), chance.getName(),JOptionPane.INFORMATION_MESSAGE);
+                    player.setMoney(player.getMoney() + chance.getType() * chance.getValue());
+                    checkMoney(player);
                     break;
                 default:
                     break;
@@ -162,7 +166,25 @@ public class GameHandler {
         }
     }
 
-    public static void sellHouse(){};
+    public static void checkMoney(Player player){
+        if (player.getMoney() < 0) {
+            int totalAssets = 0;
+            for (LandItem land : player.getLandList()) {
+                totalAssets += land.getPriceOfHouseWhenSell();
+                totalAssets += land.getPriceOfLandWhenMortage();
+            }
+
+            if (totalAssets + player.getMoney() < 0) {
+                // TODO: Xử lý EndGame
+            } else {
+                JOptionPane.showMessageDialog(null, "You do not have enough money to pay rent. You have to sell Houses or mortage land.");
+            }
+        }
+    }
+    public static void sellHouse(){
+
+
+    };
     public static void mortageLand(){};
 
 }
