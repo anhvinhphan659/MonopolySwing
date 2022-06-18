@@ -46,7 +46,7 @@ public class DisplayAction {
                 else if(partial_x>9&&partial_y<10)
                 {
                     step_x=false;
-                    if(partial_y<2||partial_y==9)
+                    if(partial_y<1||partial_y==9)
                         step_size=100;
                 }
                 else if(partial_y>9&&partial_x>1)

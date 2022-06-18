@@ -38,6 +38,7 @@ public class PlayerItem extends JLabel {
     {
         player=p;
         playerColor=0;
+
         initComponents();
     }
 
@@ -53,7 +54,11 @@ public class PlayerItem extends JLabel {
     public void setPlayerColor(int color)
     {
         playerColor=color%6;
+        player.setPlayerColor(ownColors[color]);
         initComponents();
+    }
 
+    public int getPlayerColor() {
+        return playerColor;
     }
 }

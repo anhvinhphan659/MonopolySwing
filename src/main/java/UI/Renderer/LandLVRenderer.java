@@ -9,11 +9,14 @@ import java.awt.*;
 
 public class LandLVRenderer extends JPanel implements ListCellRenderer<Land> {
     private JPanel contentPanel;
+
     private JLabel nameLabel;
     private JLabel houseLabel;
+
     public LandLVRenderer()
     {
         contentPanel=new JPanel();
+
         nameLabel = new JLabel();
         houseLabel = new JLabel();
 
@@ -26,6 +29,7 @@ public class LandLVRenderer extends JPanel implements ListCellRenderer<Land> {
         setLayout(new BorderLayout());
         setBackground(Color.GREEN);
         setBorder(new EmptyBorder(5,5,5,5));
+
         add(contentPanel,BorderLayout.CENTER);
 
     }
@@ -34,6 +38,7 @@ public class LandLVRenderer extends JPanel implements ListCellRenderer<Land> {
     public Component getListCellRendererComponent(JList list, Land value, int index, boolean isSelected, boolean cellHasFocus) {
         nameLabel.setText(value.getName());
         houseLabel.setText(String.valueOf(value.getPrice()));
+
         return this;
     }
 }
