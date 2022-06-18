@@ -114,6 +114,11 @@ public class LandItem extends JPanel implements MouseClickListener {
         this.colorpanel = colorpanel;
     }
 
+    public void setColor(Color color)
+    {
+        jPanel2.setBackground(color);
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         System.out.println("Click on "+land.getName());

@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player> {
     private JPanel contentPanel;
+    private JPanel leftPanel;
     private JLabel nameLabel;
     private JLabel moneyLabel;
     public PlayerLVRenderer()
@@ -29,6 +30,9 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
         setOpaque(true);
         setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(5,5,5,5));
+        leftPanel=new JPanel();
+        leftPanel.setPreferredSize(new Dimension(20,20));
+
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(5,5,5,5) ));
 //        int r=new Random().nextInt(100);
@@ -36,7 +40,7 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
 //        contentLabel.setText(String.valueOf(r));
         contentPanel.add(nameLabel,BorderLayout.CENTER);
         contentPanel.add(moneyLabel,BorderLayout.EAST);
-
+        add(leftPanel,BorderLayout.WEST);
         add(contentPanel,BorderLayout.CENTER);
     }
     @Override
@@ -45,12 +49,13 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
         // TODO: customize item here
         nameLabel.setText(value.getName());
         moneyLabel.setText(String.valueOf(value.getMoney()) + "$");
+        leftPanel.setBackground(value.getPlayerColor());
 
         if(isSelected){
-            contentPanel.setBackground(Color.CYAN);
+            contentPanel.setBackground(new Color(235,183,120));
         }
         else{
-            contentPanel.setBackground(Color.GRAY);
+            contentPanel.setBackground(Color.WHITE);
         }
 
         return this;

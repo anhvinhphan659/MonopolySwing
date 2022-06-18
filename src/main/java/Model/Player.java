@@ -2,6 +2,7 @@ package Model;
 
 import UI.Item.LandItem;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -9,6 +10,7 @@ public class Player {
     private int money;
     private int currentLocation;
     private boolean isInPrison;
+    private Color playerColor;
     private ArrayList<LandItem> landList;
 
 
@@ -53,5 +55,13 @@ public class Player {
 
     public void setInPrison(boolean inPrison) {
         isInPrison = inPrison;
+    }
+
+    public Color getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
     }
 }

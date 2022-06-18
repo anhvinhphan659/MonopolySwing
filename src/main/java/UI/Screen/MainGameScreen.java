@@ -53,7 +53,7 @@ public class MainGameScreen extends JPanel {
     private ArrayList<Player> playerArrayList;
     private ArrayList<PlayerItem> playerItemsArrayList;
     private ArrayList<LandItem> landItemList;
-    private ArrayList<PlayerItem> playerItems;
+
     private ArrayList<Chance> chanceList;
     private boolean isSell;
     private boolean isMortage;
@@ -66,7 +66,7 @@ public class MainGameScreen extends JPanel {
         playerArrayList = new ArrayList<>();
         landItemList=new ArrayList<>();
         landInformationList= GameHandler.readLandList();
-        playerItems=new ArrayList<>();
+//        playerItems=new ArrayList<>();
         initChanceList();
 
 
@@ -156,9 +156,20 @@ public class MainGameScreen extends JPanel {
                                     JOptionPane.YES_NO_OPTION,
                                     JOptionPane.QUESTION_MESSAGE);
                             if(choose == JOptionPane.YES_OPTION){
+
                                 land.setOwner(player);
+
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Color ownColor=PlayerItem.ownColors[playerItemsArrayList.get(playerList.getSelectedIndex()).getPlayerColor()];
+                                        land.setColor(ownColor);
+                                    }
+                                });
+
                                 player.setMoney(player.getMoney() - land.getLand().getPrice());
                                 player.getLandList().add(land);
+
 
                                 landDefaultListModel.addElement(land.getLand());
                             }
@@ -217,6 +228,19 @@ public class MainGameScreen extends JPanel {
         Thread t=new Thread(){
             @Override
             public void run() {
+                //lock backbtn
+                try {
+                    SwingUtilities.invokeAndWait(new Runnable() {
+                        @Override
+                        public void run() {
+                            backBtn.setEnabled(false);
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
                 //lock dice
                 isTakedDice=true;
                 buyBtn.setEnabled(false);
@@ -237,6 +261,19 @@ public class MainGameScreen extends JPanel {
                 drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
 
                 play();
+                //unlock backbtn
+                try {
+                    SwingUtilities.invokeAndWait(new Runnable() {
+                        @Override
+                        public void run() {
+                            backBtn.setEnabled(true);
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
                 //unlock dice
                 isTakedDice=false;
                 buyBtn.setEnabled(true);
@@ -428,11 +465,11 @@ public class MainGameScreen extends JPanel {
         Integer[] colors={0,1,2,3,4,5};
         List<Integer> colorList= Arrays.asList(colors);
         Rectangle[] positions={
-                new Rectangle(17+25,13+25,16,16),
-                new Rectangle(17+25,13+25+16+13,16,16),
-                new Rectangle(67+25,34+25,16,16),
-                new Rectangle(67+25,34+25+16,16,16),
-                new Rectangle(17+25,13+25+16+13+16+13,16,16),
+                new Rectangle(30,30+16*0+2*0,16,16),
+                new Rectangle(30+5+16,30+16*0+2*0,16,16),
+                new Rectangle(30,30+16*1+2*1,16,16),
+                new Rectangle(30+5+16,30+16*1+2*1,16,16),
+                new Rectangle(80,30+16*0+2*0,16,16),
 
         };
         Collections.shuffle(colorList);
