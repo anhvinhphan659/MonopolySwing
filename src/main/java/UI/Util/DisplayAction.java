@@ -2,9 +2,11 @@ package UI.Util;
 
 import Model.Land;
 import Model.Player;
+import UI.Item.HouseItem;
 import UI.Item.PlayerItem;
 
 import javax.swing.*;
+import javax.swing.text.Position;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
@@ -92,6 +94,81 @@ public class DisplayAction {
     {
         Random r=new Random();
         return r.nextInt(6)%6+1;
+    }
+
+    //calculate position of house to add
+    /*
+    landth: th of land
+    houseth: th of house in land, range from 1..4
+    typehouse: house=0, hotel=1 see more in HouseItem
+    */
+    public static Point getHousePosition(int landTH,int houseTh,int typeHouse)
+    {
+        Point p=new Point();
+        int start_x=100+25;
+        int start_y=100+25;
+        // TODO: calculate startx,starty of land
+        if(typeHouse==HouseItem.HOUSE)
+        {
+            if(landTH<9||(landTH>18&&landTH<27))
+            {
+                int tempTh=landTH<9?landTH:landTH-18;
+                start_x+=(tempTh-1)*50;
+                start_y-=10;
+                if(houseTh>2)
+                    start_y-=24;
+                if (houseTh%2==0)
+                    start_x+=24+2;
+                if(landTH>18)
+                {
+                    start_x=325*2-(start_x+24);
+                    start_y=325*2-(start_y+24);
+                }
+            }
+            else
+            {
+                int tempTh=landTH<18?landTH-9:landTH-27;
+                start_x+=400-14;
+                start_y+=(tempTh-1)*50;
+                if(houseTh>2)
+                    start_y+=24+2;
+                if(houseTh%2==0)
+                    start_x+=24;
+                if(landTH>27)
+                {
+                    start_x=325*2-(start_x+24);
+                    start_y=325*2-(start_y+24);
+                }
+
+            }
+        }
+        else {
+            if(landTH<9||(landTH>18&&landTH<27))
+            {
+                int tempTh=landTH<9?landTH:landTH-18;
+                start_x+=(tempTh-1)*50+13;
+                start_y-=(24-2);
+                if(landTH>18)
+                {
+                    start_x=325*2-(start_x);
+                    start_y=325*2-(start_y+24);
+                }
+            }
+            else
+            {
+                int tempTh=landTH<18?landTH-9:landTH-27;
+                start_x+=400-2;
+                start_y+=(tempTh-1)*50+13;
+                if(landTH>27)
+                {
+                    start_x=325*2-(start_x+24);
+                    start_y=325*2-(start_y+24);
+                }
+            }
+        }
+        p.x=start_x;
+        p.y=start_y;
+        return p;
     }
 
 

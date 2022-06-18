@@ -7,6 +7,7 @@ import Model.Chance;
 import Model.Land;
 import Model.Player;
 import UI.Item.CornerItem;
+import UI.Item.HouseItem;
 import UI.Item.LandItem;
 import UI.Item.PlayerItem;
 import UI.Renderer.LandLVRenderer;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 
 
 public class MainGameScreen extends JPanel {
-    private  int indexLand=0;
+    private int indexLand=0;
     private int playingIndex = -1;
     public final static int WIDTH_SCREEN=1100;
     public final static int HEIGHT_SCREEN=750;
@@ -81,7 +82,19 @@ public class MainGameScreen extends JPanel {
         });
 
         // TODO: Add action for other game logic button
-
+        buildBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HouseItem h=new HouseItem(HouseItem.HOUSE);
+                Point pos=DisplayAction.getHousePosition(1,1,HouseItem.HOUSE);
+                h.setBounds(pos.x,pos.y,24,24);
+                HouseItem h2=new HouseItem(HouseItem.HOUSE);
+                pos=DisplayAction.getHousePosition(35,3,HouseItem.HOUSE);
+                h2.setBounds(pos.x,pos.y,24,24);
+                gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
+                gameLayerPanel.add(h2,JLayeredPane.MODAL_LAYER);
+            }
+        });
 
 
     }
@@ -112,7 +125,7 @@ public class MainGameScreen extends JPanel {
     {
 //        System.out.println(""+startX+"-"+startY);
         //draw corner
-        Land land=new Land(landInformationList.get(indexLand++));
+        Land land=new Land(landInformationList,indexLand++);
         CornerItem corner=new CornerItem(land);
         try {
             int finalStartX = startX;
@@ -166,7 +179,7 @@ public class MainGameScreen extends JPanel {
         for(int i=1;i<=8;i++)
         {
             //get land from list
-            land=new Land(landInformationList.get(indexLand++));
+            land=new Land(landInformationList,indexLand++);
             LandItem landItem=new LandItem(land);
             try {
                 int finalStartX1 = startX;
