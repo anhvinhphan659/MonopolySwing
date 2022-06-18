@@ -32,7 +32,7 @@ public class LandInformationPanel extends JPanel {
         topPanel.setRoundTopRight(CORNER_RADIUS);
         topPanel.setRoundTopLeft(CORNER_RADIUS);
         topPanel.setLayout(new BorderLayout());
-        topPanel.setBackground(Color.YELLOW);
+        topPanel.setBackground(Land.colors[land.getPriority()-1]);
         JLabel landName = new JLabel(land.getName().toUpperCase(Locale.ROOT));
         landName.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         landName.setHorizontalAlignment(SwingConstants.CENTER);
