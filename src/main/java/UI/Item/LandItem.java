@@ -86,6 +86,7 @@ public class LandItem extends JPanel implements MouseClickListener {
         priceLb.setAlignmentX(0.5F);
         priceLb.setPreferredSize(new java.awt.Dimension(37, 25));
         jPanel2.add(priceLb, java.awt.BorderLayout.PAGE_END);
+        jPanel2.setBackground(Color.WHITE);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }

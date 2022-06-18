@@ -155,6 +155,8 @@ public class MainGameScreen extends JPanel {
                                 land.setOwner(player);
                                 player.setMoney(player.getMoney() - land.getLand().getPrice());
                                 player.getLandList().add(land);
+
+                                landDefaultListModel.addElement(land.getLand());
                             }
                         }
                     }
@@ -211,6 +213,8 @@ public class MainGameScreen extends JPanel {
         Thread t=new Thread(){
             @Override
             public void run() {
+                //lock dice
+                isTakedDice=true;
                 int board_x = START_BOARD_POS_X;
                 int board_y = START_BOARD_POS_Y;
 
@@ -223,6 +227,8 @@ public class MainGameScreen extends JPanel {
                 drawLaneLine(-4, new ArrayList<>(), board_x, board_y);
 
                 play();
+                //unlock dice
+                isTakedDice=false;
 
             }
         };
@@ -465,7 +471,9 @@ public class MainGameScreen extends JPanel {
 //                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
                     GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
                     GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
-                    isTakedDice = true;
+                    // 2 same dice can continue
+                    if(dice[0]!=dice[1])
+                        isTakedDice = false;
                 }
 
             }
@@ -616,7 +624,7 @@ public class MainGameScreen extends JPanel {
     }
 
     private void showPlayerInfo(Player player){
-        moneyLb.setText(String.valueOf(player.getMoney()));
+        moneyLb.setText(String.valueOf(player.getMoney())+"$");
         landDefaultListModel.removeAllElements();
         for(LandItem item: player.getLandList()){
             landDefaultListModel.addElement(item.getLand());
@@ -660,11 +668,13 @@ public class MainGameScreen extends JPanel {
     private void play(){
         isSell = false;
         isMortage = false;
-        isTakedDice = false;
+        isTakedDice = true;
         int i = nextPlayer();
 
         Player player = playerArrayList.get(i);
-        JOptionPane.showMessageDialog(null, "Đến lượt của " + player.getName());
+        JOptionPane.showMessageDialog(null, "" + player.getName()+"'s Turn");
+
+
 //        dice = rollDices();
 //        DisplayAction.movePlayer(gameLayerPanel,pi,step);
 
