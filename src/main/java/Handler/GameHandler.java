@@ -1,5 +1,6 @@
 package Handler;
 
+import Main.Main;
 import Model.Chance;
 import Model.Land;
 import Model.Player;
@@ -126,7 +127,7 @@ public class GameHandler {
         }
 
     }
-    public static void handle(Player player, PlayerItem playerItem, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
+    public static int handle(Player player, PlayerItem playerItem, ArrayList<LandItem> landItemList, ArrayList<Chance> chanceList){
         LandItem landItem = landItemList.get(player.getCurrentLocation());
 
         if(landItem.getLand().isLand()){
@@ -134,7 +135,7 @@ public class GameHandler {
                 if (landItem.getOwner() != player && landItem.isMortgage() == false) {
                     JOptionPane.showMessageDialog(null, "You have to pay rent for " + landItem.getOwner().getName());
                     player.setMoney(player.getMoney() - landItem.getRent());
-                    checkMoney(player);
+                    return checkMoney(player);
                 }
             }
         }
@@ -153,33 +154,26 @@ public class GameHandler {
 
                     JOptionPane.showMessageDialog(null,chance.getDescription() + ": " + String.valueOf(chance.getType() * chance.getValue()), chance.getName(),JOptionPane.INFORMATION_MESSAGE);
                     player.setMoney(player.getMoney() + chance.getType() * chance.getValue());
-                    checkMoney(player);
-                    break;
+                    return checkMoney(player);
                 default:
                     break;
             }
         }
+        return 1;
     }
 
-    public static void checkMoney(Player player){
+    public static int checkMoney(Player player){
         if (player.getMoney() < 0) {
-            int totalAssets = 0;
-            for (LandItem land : player.getLandList()) {
-                totalAssets += land.getPriceOfHouseWhenSell();
-                totalAssets += land.getPriceOfLandWhenMortage();
-            }
+            int totalAssets = player.getTotalAssets();
 
-            if (totalAssets + player.getMoney() < 0) {
-                // TODO: Xử lý EndGame
+            if (totalAssets < 0) {
+                JOptionPane.showMessageDialog(null,player.getName() + ", Your total assets are not enough to repay the debt. You have been bankrupt.");
+                return -1;
             } else {
                 JOptionPane.showMessageDialog(null, "You do not have enough money to pay rent. You have to sell Houses or mortage land.");
+                return 0;
             }
         }
+        return 1;
     }
-    public static void sellHouse(){
-
-
-    };
-    public static void mortageLand(){};
-
 }

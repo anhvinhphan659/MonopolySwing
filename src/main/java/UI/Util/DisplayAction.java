@@ -9,13 +9,21 @@ import javax.swing.*;
 import javax.swing.text.Position;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DisplayAction {
     public static void showLandInformation(Land land)
     {
         LandInformationPanel informationPane=new LandInformationPanel(land);
+//        RankPanel rankPanel = new RankPanel();
         JOptionPane.showMessageDialog(null,informationPane,land.getName()+"'s Information",JOptionPane.UNDEFINED_CONDITION);
+    }
+
+    public static void showRank(ArrayList<Player> playerArrayList)
+    {
+        RankPanel rankPanel = new RankPanel(playerArrayList);
+        JOptionPane.showMessageDialog(null,rankPanel,"Rank",JOptionPane.UNDEFINED_CONDITION);
     }
 
     public static void movePlayer(JLayeredPane desPanel, PlayerItem pi,int step)

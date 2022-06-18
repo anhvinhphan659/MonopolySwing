@@ -54,4 +54,14 @@ public class Player {
     public void setInPrison(boolean inPrison) {
         isInPrison = inPrison;
     }
+
+    public int getTotalAssets(){
+        int sum = money;
+
+        for(LandItem landItem: landList){
+            sum += landItem.getPriceOfHouseWhenSell();
+            sum += landItem.getPriceOfLandWhenMortage();
+        }
+        return sum;
+    }
 }
