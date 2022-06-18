@@ -103,25 +103,12 @@ public class GameHandler {
 
                     if(result == JOptionPane.YES_OPTION){
                         player.setInPrison(false);
+                        player.setCurrentLocation(player.getCurrentLocation() - 200);
                         player.setCurrentLocation(player.getCurrentLocation() + dice1 + dice2);
                     }
                 }
                 else{
-                    Object[] options = {"Sell houses", "Mortage lands", "No"};
-                    result = JOptionPane.showOptionDialog(null,"Your money isn't enought to pay for the prison to be released. Do uou want sell house or mortage lands?",
-                            "Confirm",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[0]);
-                    if(result == JOptionPane.YES_OPTION){
-                        sellHouse();
-                    }else{
-                        if (result == JOptionPane.NO_OPTION){
-                            mortageLand();
-                        }
-                    }
+                    JOptionPane.showMessageDialog(null,"You do not have enough to pay for the prison to be released.");
                 }
             }
         }
@@ -130,7 +117,7 @@ public class GameHandler {
         }
 
         if (player.getCurrentLocation() >= landItemList.size()){
-            JOptionPane.showMessageDialog(null, "You have passed the target house and received $ 200.");
+            JOptionPane.showMessageDialog(null, "You have passed the target land and received 200$.");
             player.setMoney(player.getMoney() + 200);
             player.setCurrentLocation(player.getCurrentLocation() - landItemList.size());
         }
@@ -147,6 +134,13 @@ public class GameHandler {
                     player.setMoney(player.getMoney() - landItem.getLand().getPrice());
                     landItem.setOwner(player);
                     player.getLandList().add(landItem);
+                }
+            }
+            else{
+                player.setMoney(player.getMoney() - landItem.getRent());
+                if(player.getMoney() < 0){
+                    JOptionPane.showMessageDialog(null, "You do not have enough money to pay rent");
+
                 }
             }
         }

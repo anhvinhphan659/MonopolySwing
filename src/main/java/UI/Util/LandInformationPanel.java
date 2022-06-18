@@ -54,9 +54,9 @@ public class LandInformationPanel extends JPanel {
         JLabel lb3=createLabel();
         lb3.setText("<html>1 house(s): " +String.valueOf(rentValue*5)+"$"+
                 "<br>" +"<html>2 house(s): " +String.valueOf(rentValue*5*3)+"$"+
-                "<br>" +"<html>3 house(s): " +String.valueOf(rentValue*5*7)+"$"+
-                "<br>" +"<html>4 house(s): " +String.valueOf(rentValue*5*8)+"$"+
-                "<br>" +"<html>1 hotel: " +String.valueOf(rentValue*5*10)+"$"+
+                "<br>" +"<html>3 house(s): " +String.valueOf(rentValue*5*5)+"$"+
+                "<br>" +"<html>4 house(s): " +String.valueOf(rentValue*5*7)+"$"+
+                "<br>" +"<html>1 hotel: " +String.valueOf(rentValue*5*9)+"$"+
                 "</html>");
         JLabel lb4=createLabel();
         lb4.setText("Construction "+String.valueOf(rentValue*5)+"$ each house");

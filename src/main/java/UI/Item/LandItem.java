@@ -22,11 +22,16 @@ public class LandItem extends JPanel implements MouseClickListener {
     //direction of land item
     protected Land land;
     private Player owner;
+    private boolean isMortgage;
+    private int nHouse;
 
 
     public LandItem(Land land)
     {
         this.land=land;
+        this.isMortgage = false;
+        this.nHouse = 0;
+
         setPreferredSize(new Dimension(WIDTH_ITEM,HEIGHT_ITEM));
         initComponents();
         nameLb.setText(land.getName());
@@ -113,6 +118,33 @@ public class LandItem extends JPanel implements MouseClickListener {
         System.out.println("Click on "+land.getName());
     }
 
+    public int getRent(){
+        int rent = land.getPrice()/10;
+
+        switch (nHouse){
+            case 0:
+                rent *= 1;
+                break;
+            case 1:
+                rent *= 5;
+                break;
+            case 2:
+                rent *= 5*3;
+                break;
+            case 3:
+                rent *= 5*5;
+                break;
+            case 4:
+                rent *= 5*7;
+                break;
+            case 5:
+                rent *= 5*9;
+                break;
+        }
+        return rent;
+    }
+
+
     public Land getLand() {
         return land;
     }
@@ -124,4 +156,21 @@ public class LandItem extends JPanel implements MouseClickListener {
     public void setOwner(Player owner) {
         this.owner = owner;
     }
+
+    public boolean isMortgage() {
+        return isMortgage;
+    }
+
+    public void setMortgage(boolean mortgage) {
+        isMortgage = mortgage;
+    }
+
+    public int getnHouse() {
+        return nHouse;
+    }
+
+    public void setnHouse(int nHouse) {
+        this.nHouse = nHouse;
+    }
+
 }
