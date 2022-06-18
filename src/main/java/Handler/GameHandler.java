@@ -2,8 +2,10 @@ package Handler;
 
 import Main.Main;
 import Model.Chance;
+import Model.GameParameter;
 import Model.Land;
 import Model.Player;
+import UI.Item.HouseItem;
 import UI.Item.LandItem;
 import UI.Item.PlayerItem;
 import UI.Screen.MainGameScreen;
@@ -12,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -121,8 +124,8 @@ public class GameHandler {
         }
 
         if (player.getCurrentLocation() >= landItemList.size()){
-            JOptionPane.showMessageDialog(null, "You have passed the target land and received 200$.");
-            player.setMoney(player.getMoney() + 200);
+            JOptionPane.showMessageDialog(null, "You have passed the target land and received " + GameParameter.getMoney() + "$.");
+            player.setMoney(player.getMoney() + GameParameter.getMoney());
             player.setCurrentLocation(player.getCurrentLocation() - landItemList.size());
         }
 
@@ -135,6 +138,7 @@ public class GameHandler {
                 if (landItem.getOwner() != player && landItem.isMortgage() == false) {
                     JOptionPane.showMessageDialog(null, "You have to pay rent for " + landItem.getOwner().getName());
                     player.setMoney(player.getMoney() - landItem.getRent());
+                    landItem.getOwner().setMoney(landItem.getOwner().getMoney() + landItem.getRent());
                     return checkMoney(player);
                 }
             }
@@ -154,6 +158,7 @@ public class GameHandler {
 
                     JOptionPane.showMessageDialog(null,chance.getDescription() + ": " + String.valueOf(chance.getType() * chance.getValue()), chance.getName(),JOptionPane.INFORMATION_MESSAGE);
                     player.setMoney(player.getMoney() + chance.getType() * chance.getValue());
+//                    player.setMoney(player.getMoney() - chance.getValue());
                     return checkMoney(player);
                 default:
                     break;
@@ -175,5 +180,26 @@ public class GameHandler {
             }
         }
         return 1;
+    }
+
+    public static void buildHouse(Player player, LandItem landItem){
+        if(landItem.getnHouse() == 5){
+            JOptionPane.showMessageDialog(null, player.getName() + ", You cannot build more houses on " + landItem.getLand().getName());
+        }
+        else{
+            HouseItem h = new HouseItem(HouseItem.HOUSE);
+            Point pos;
+            if(landItem.getnHouse() < 4){
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),landItem.getnHouse(),HouseItem.HOUSE);
+            }
+            else{
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),landItem.getnHouse(),HouseItem.HOTEL);
+            }
+            h.setBounds(pos.x,pos.y,24,24);
+            MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
+            landItem.setnHouse(landItem.getnHouse() + 1);
+        }
+
+
     }
 }

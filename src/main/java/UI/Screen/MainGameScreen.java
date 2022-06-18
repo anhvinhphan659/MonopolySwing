@@ -90,14 +90,40 @@ public class MainGameScreen extends JPanel {
         buildBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HouseItem h=new HouseItem(HouseItem.HOUSE);
-                Point pos=DisplayAction.getHousePosition(1,1,HouseItem.HOUSE);
-                h.setBounds(pos.x,pos.y,24,24);
-                HouseItem h2=new HouseItem(HouseItem.HOUSE);
-                pos=DisplayAction.getHousePosition(35,3,HouseItem.HOUSE);
-                h2.setBounds(pos.x,pos.y,24,24);
-                gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
-                gameLayerPanel.add(h2,JLayeredPane.MODAL_LAYER);
+                Player player = playerList.getSelectedValue();
+                LandItem landItem = landItemList.get(player.getCurrentLocation());
+                GameHandler.buildHouse(player, landItem);
+
+                if(!landItem.getLand().isLand()){
+                    JOptionPane.showMessageDialog(null,player.getName() + ", This is not land, so you can't build house(s).");
+                }
+                else{
+                    if(landItem.getOwner() == null){
+                        JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought " + landItem.getLand().getName() + " yet, so you can't build house(s).");
+                    }
+                    else{
+                        if(landItem.getOwner() != player){
+                            JOptionPane.showMessageDialog(null,player.getName() + ", You are not the owner of " + landItem.getLand().getName() + ", so you can't build house(s).");
+                        }
+                        else{
+                            if(!isBuyAllLandSameLevel(player, landItem)){
+                                JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought all lands which have same color with " + landItem.getLand().getName() + ", so you can't build house(s).");
+                            }
+                            else {
+                                if(player.getMoney() < landItem.getPriceBulidHouse()){
+                                    JOptionPane.showMessageDialog(null,player.getName() + ", You do not enough money to build house on " + landItem.getLand().getName() + ".");
+                                }
+                                else{
+                                    GameHandler.buildHouse(player, landItem);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+
             }
         });
 
@@ -800,6 +826,25 @@ public class MainGameScreen extends JPanel {
         gameFrame.setSize(new Dimension(ChooseNPlayerScreen.WIDTH_SCREEN,ChooseNPlayerScreen.HEIGHT_SCREEN));
         gameFrame.changeGamePanel(new ChooseNPlayerScreen());
     }
+
+    private boolean isBuyAllLandSameLevel(Player player, LandItem landItem){
+        int level = landItem.getLand().getPriority();
+        int n_land = 0;
+        int n_owed_land = 0;
+        for(LandItem li: landItemList){
+            if(li.getLand().getPriority() == level){
+                n_land++;
+            }
+        }
+        for(LandItem li: player.getLandList()){
+            if(li.getLand().getPriority() == level){
+                n_owed_land++;
+            }
+        }
+
+        return n_land == n_owed_land;
+    }
+
 
     private javax.swing.JButton backBtn;
     private javax.swing.JButton buildBtn;

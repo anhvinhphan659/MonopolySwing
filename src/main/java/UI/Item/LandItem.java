@@ -149,6 +149,9 @@ public class LandItem extends JPanel implements MouseClickListener {
         }
         return rent;
     }
+    public int getPriceBulidHouse(){
+        return (int) (land.getPrice() * 0.5);
+    }
 
     public int getPriceOfHouseWhenSell(){
         return (int) (land.getPrice() * 0.4 * nHouse);

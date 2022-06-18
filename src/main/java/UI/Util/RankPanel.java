@@ -88,4 +88,25 @@ public class RankPanel extends JPanel {
         lb.setForeground(new Color(140,140,150));
         return lb;
     }
+
+//    private ArrayList<Integer> ranking(ArrayList<Player> playerArrayList){
+//        ArrayList<Integer> rankIndex = new ArrayList<>();
+//        for(int i = 0; i < playerArrayList.size(); i++){
+//            int maxMoney = 0;
+//            int index = 0;
+//
+//            for(int j = 0; j < playerArrayList.size(); j++) {
+//                if (!rankIndex.contains(Integer.valueOf(i))) {
+//                    if (playerArrayList.get(j).getTotalAssets() > maxMoney) {
+//                        maxMoney = playerArrayList.get(j).getTotalAssets();
+//                        index = j;
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        return rankIndex;
+//    }
+
 }
