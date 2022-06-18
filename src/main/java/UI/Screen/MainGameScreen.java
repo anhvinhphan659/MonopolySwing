@@ -55,6 +55,7 @@ public class MainGameScreen extends JPanel {
     private boolean isSell;
     private boolean isMortage;
     private boolean isTakedDice;
+    private int nDuplicate;
 
 
     public MainGameScreen() throws IOException {
@@ -215,6 +216,12 @@ public class MainGameScreen extends JPanel {
             public void run() {
                 //lock dice
                 isTakedDice=true;
+                buyBtn.setEnabled(false);
+                buildBtn.setEnabled(false);
+                sellBtn.setEnabled(false);
+                mortageBtn.setEnabled(false);
+                doneBtn.setEnabled(false);
+
                 int board_x = START_BOARD_POS_X;
                 int board_y = START_BOARD_POS_Y;
 
@@ -229,7 +236,11 @@ public class MainGameScreen extends JPanel {
                 play();
                 //unlock dice
                 isTakedDice=false;
-
+                buyBtn.setEnabled(true);
+                buildBtn.setEnabled(true);
+                sellBtn.setEnabled(true);
+                mortageBtn.setEnabled(true);
+                doneBtn.setEnabled(true);
             }
         };
         t.start();
@@ -468,12 +479,30 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!isTakedDice){
                     int[] dice = rollDices();
-//                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
                     GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
                     GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
                     // 2 same dice can continue
-                    if(dice[0]!=dice[1])
-                        isTakedDice = false;
+                    if(dice[0] != dice[1])
+                        isTakedDice = true;
+                    else{
+                        nDuplicate++;
+                        if(nDuplicate == 3){
+                            JOptionPane.showMessageDialog(null,playerList.getSelectedValue().getName() + ", you have to go to fail.");
+                            int currentPosition = playerList.getSelectedValue().getCurrentLocation();
+                            playerList.getSelectedValue().setCurrentLocation(9);
+                            playerList.getSelectedValue().setInPrison(true);
+
+                            if(currentPosition < 9){
+                                DisplayAction.movePlayer(gameLayerPanel,playerItemsArrayList.get(playerList.getSelectedIndex()),9-currentPosition);
+                            }
+                            else{
+                                DisplayAction.movePlayer(gameLayerPanel,playerItemsArrayList.get(playerList.getSelectedIndex()),9-currentPosition + 36);
+                            }
+
+                            isTakedDice = true;
+
+                        }
+                    }
                 }
 
             }
@@ -483,10 +512,29 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!isTakedDice){
                     int[] dice = rollDices();
-//                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
                     GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
                     GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
-                    isTakedDice = true;
+                    // 2 same dice can continue
+                    if(dice[0] != dice[1])
+                        isTakedDice = true;
+                    else{
+                        nDuplicate++;
+                        if(nDuplicate == 3){
+                            JOptionPane.showMessageDialog(null,playerList.getSelectedValue().getName() + ", you have to go to fail.");
+                            int currentPosition = playerList.getSelectedValue().getCurrentLocation();
+                            playerList.getSelectedValue().setCurrentLocation(9);
+                            playerList.getSelectedValue().setInPrison(true);
+
+                            if(currentPosition < 9){
+                                DisplayAction.movePlayer(gameLayerPanel,playerItemsArrayList.get(playerList.getSelectedIndex()),9-currentPosition);
+                            }
+                            else{
+                                DisplayAction.movePlayer(gameLayerPanel,playerItemsArrayList.get(playerList.getSelectedIndex()),9-currentPosition + 36);
+                            }
+                            isTakedDice = true;
+
+                        }
+                    }
                 }
 
             }
@@ -668,7 +716,9 @@ public class MainGameScreen extends JPanel {
     private void play(){
         isSell = false;
         isMortage = false;
-        isTakedDice = true;
+        isTakedDice = false;
+        nDuplicate = 0;
+
         int i = nextPlayer();
 
         Player player = playerArrayList.get(i);
