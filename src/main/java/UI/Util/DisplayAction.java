@@ -93,7 +93,7 @@ public class DisplayAction {
     public static int randomDice()
     {
         Random r=new Random();
-        return r.nextInt(6)%6+1;
+        return r.nextInt(6) + 1;
     }
 
     //calculate position of house to add

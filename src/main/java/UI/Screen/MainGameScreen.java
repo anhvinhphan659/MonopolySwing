@@ -53,6 +53,7 @@ public class MainGameScreen extends JPanel {
     private ArrayList<Chance> chanceList;
     private boolean isSell;
     private boolean isMortage;
+    private boolean isTakedDice;
 
 
     public MainGameScreen() throws IOException {
@@ -100,6 +101,17 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
 //                GameHandler.sellHouse();
                 isSell = !isSell;
+
+                if(isSell){
+                    buildBtn.setEnabled(false);
+                    mortageBtn.setEnabled(false);
+                    buyBtn.setEnabled(false);
+                }
+                else{
+                    buildBtn.setEnabled(true);
+                    mortageBtn.setEnabled(true);
+                    buyBtn.setEnabled(true);
+                }
             }
         });
 
@@ -107,6 +119,17 @@ public class MainGameScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 isMortage = !isMortage;
+
+                if(isMortage){
+                    buildBtn.setEnabled(false);
+                    sellBtn.setEnabled(false);
+                    buyBtn.setEnabled(false);
+                }
+                else{
+                    buildBtn.setEnabled(true);
+                    sellBtn.setEnabled(true);
+                    buyBtn.setEnabled(true);
+                }
             }
         });
 
@@ -139,34 +162,40 @@ public class MainGameScreen extends JPanel {
                             JOptionPane.showMessageDialog(null, "You bought this land");
                         }
                         else{
-                            if (player.getMoney() < land.getPriceOfLandAndHourseWhenSell()){
-                                JOptionPane.showMessageDialog(null, "You do not have enough to buy this land");
-
+                            if(land.isMortgage()){
+                                JOptionPane.showMessageDialog(null,
+                                        land.getLand().getName() + " has been mortgaged for the bank. You can not buy it.");
                             }
-                            else{
-                                int choose = JOptionPane.showConfirmDialog(null,
-                                        land.getOwner().getName() + " owns land" + land.getLand().getName() + ". Do you want to buy back it for $" + land.getPriceOfLandAndHourseWhenSell() + "?",
-                                        "Buy Land",
-                                        JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE);
-                                if(choose == JOptionPane.YES_OPTION){
-                                    choose = JOptionPane.showConfirmDialog(null,
-                                            "Hello, " + land.getOwner().getName() + ". " + player.getName() + " want buy " + land.getLand().getName() + " for $" + land.getPriceOfLandAndHourseWhenSell() + ". Do you want to sell it?",
+                            else {
+                                if (player.getMoney() < land.getPriceOfLandAndHourseWhenSell()){
+                                    JOptionPane.showMessageDialog(null, "You do not have enough to buy this land");
+                                }
+                                else{
+                                    int choose = JOptionPane.showConfirmDialog(null,
+                                            land.getOwner().getName() + " owns land" + land.getLand().getName() + ". Do you want to buy back it for $" + land.getPriceOfLandAndHourseWhenSell() + "?",
                                             "Buy Land",
                                             JOptionPane.YES_NO_OPTION,
                                             JOptionPane.QUESTION_MESSAGE);
-
                                     if(choose == JOptionPane.YES_OPTION){
-                                        land.getOwner().getLandList().remove(land);
-                                        land.getOwner().setMoney(land.getOwner().getMoney() + land.getPriceOfLandAndHourseWhenSell());
+                                        choose = JOptionPane.showConfirmDialog(null,
+                                                "Hello, " + land.getOwner().getName() + ". " + player.getName() + " want buy " + land.getLand().getName() + " for $" + land.getPriceOfLandAndHourseWhenSell() + ". Do you want to sell it?",
+                                                "Buy Land",
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE);
 
-                                        land.setOwner(player);
+                                        if(choose == JOptionPane.YES_OPTION){
+                                            land.getOwner().getLandList().remove(land);
+                                            land.getOwner().setMoney(land.getOwner().getMoney() + land.getPriceOfLandAndHourseWhenSell());
 
-                                        player.setMoney(player.getMoney() - land.getPriceOfLandAndHourseWhenSell());
-                                        player.getLandList().add(land);
+                                            land.setOwner(player);
+
+                                            player.setMoney(player.getMoney() - land.getPriceOfLandAndHourseWhenSell());
+                                            player.getLandList().add(land);
+                                        }
                                     }
                                 }
                             }
+
                         }
 
                     }
@@ -390,7 +419,15 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO: handle done action
                 if (playerList.getSelectedValue().getMoney() >= 0){
+                    buyBtn.setEnabled(true);
+                    buildBtn.setEnabled(true);
+                    sellBtn.setEnabled(true);
+                    mortageBtn.setEnabled(true);
                     play();
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You still haven't paid the debt yet. Please pay off the debt before the end of the version.");
                 }
 
             }
@@ -406,14 +443,27 @@ public class MainGameScreen extends JPanel {
         diceBtn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rollDices();
-                DisplayAction.movePlayer(gameLayerPanel,pi,5);
+                if(!isTakedDice){
+                    int[] dice = rollDices();
+//                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
+                    GameHandler.move(playerList.getSelectedValue(), landItemList, dice);
+                    GameHandler.handle(playerList.getSelectedValue(), landItemList, chanceList);
+                    isTakedDice = true;
+                }
+
             }
         });
         diceBtn2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rollDices();
+                if(!isTakedDice){
+                    int[] dice = rollDices();
+//                    DisplayAction.movePlayer(gameLayerPanel,pi,5);
+                    GameHandler.move(playerList.getSelectedValue(), landItemList, dice);
+                    GameHandler.handle(playerList.getSelectedValue(), landItemList, chanceList);
+                    isTakedDice = true;
+                }
+
             }
         });
 
@@ -556,7 +606,7 @@ public class MainGameScreen extends JPanel {
         }
     }
 
-    private void rollDices()
+    private int[] rollDices()
     {
         int n1=DisplayAction.randomDice();
         int n2=DisplayAction.randomDice();
@@ -573,7 +623,7 @@ public class MainGameScreen extends JPanel {
             }
         });
         // TODO: get current player and move (using move player function in  DisplayAction )
-
+        return new int[] {n1, n2};
     }
 
     public int nextPlayer(){
@@ -593,12 +643,14 @@ public class MainGameScreen extends JPanel {
     private void play(){
         isSell = false;
         isMortage = false;
+        isTakedDice = false;
         int i = nextPlayer();
 
         Player player = playerArrayList.get(i);
         JOptionPane.showMessageDialog(null, "Đến lượt của " + player.getName());
-        GameHandler.move(player, landItemList);
-        GameHandler.handle(player, landItemList, chanceList);
+//        dice = rollDices();
+//        DisplayAction.movePlayer(gameLayerPanel,pi,step);
+
     }
 
     private javax.swing.JButton backBtn;

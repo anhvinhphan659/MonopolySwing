@@ -85,24 +85,13 @@ public class GameHandler {
         return chanceList;
     }
 
-    public static int[] step(){
-        Random rd = new Random();
-        int dice1 = rd.nextInt(6) + 1;
-        int dice2 = rd.nextInt(6) + 1;
-
-        return new int[] {dice1, dice2};
-    }
-
-    public static void move(Player player, ArrayList<LandItem> landItemList){
-        int[] dice = step();
-
-        System.out.println(dice[0] + " + " + dice[1] + " = " + (dice[0] + dice[1]));
-
+    public static void move(Player player, ArrayList<LandItem> landItemList, int[] dice){
+        int step = dice[0] + dice[1];
         if (player.isInPrison()){
             if (dice[0] == dice[1]){
                 JOptionPane.showMessageDialog(null, "You are released from prison");
                 player.setInPrison(false);
-                player.setCurrentLocation(player.getCurrentLocation() + dice[0] + dice[1]);
+                player.setCurrentLocation(player.getCurrentLocation() + step);
             }
             else{
                 // TODO: Xử lý khi đi tù
@@ -113,7 +102,7 @@ public class GameHandler {
                     if(result == JOptionPane.YES_OPTION){
                         player.setInPrison(false);
                         player.setMoney(player.getMoney() - 200);
-                        player.setCurrentLocation(player.getCurrentLocation() +  dice[0] + dice[1]);
+                        player.setCurrentLocation(player.getCurrentLocation() +  step);
                     }
                 }
                 else{
@@ -122,7 +111,7 @@ public class GameHandler {
             }
         }
         else{
-            player.setCurrentLocation(player.getCurrentLocation() +  dice[0] + dice[1]);
+            player.setCurrentLocation(player.getCurrentLocation() +  step);
         }
 
         if (player.getCurrentLocation() >= landItemList.size()){
