@@ -6,11 +6,7 @@ import com.github.weisj.darklaf.listener.MouseClickListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 public class LandItem extends JPanel implements MouseClickListener {
     public static final int WIDTH_ITEM=100;
@@ -149,7 +145,7 @@ public class LandItem extends JPanel implements MouseClickListener {
         }
         return rent;
     }
-    public int getPriceBulidHouse(){
+    public int getPriceBuildHouse(){
         return (int) (land.getPrice() * 0.5);
     }
 

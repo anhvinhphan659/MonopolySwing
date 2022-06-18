@@ -22,12 +22,11 @@ public class LandLVRenderer extends JPanel implements ListCellRenderer<Land> {
 
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(5,5,5,5) ));
-
         contentPanel.add(nameLabel,BorderLayout.WEST);
         contentPanel.add(houseLabel,BorderLayout.EAST);
 
         setLayout(new BorderLayout());
-        setBackground(Color.GREEN);
+        setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(5,5,5,5));
 
         add(contentPanel,BorderLayout.CENTER);
@@ -38,6 +37,7 @@ public class LandLVRenderer extends JPanel implements ListCellRenderer<Land> {
     public Component getListCellRendererComponent(JList list, Land value, int index, boolean isSelected, boolean cellHasFocus) {
         nameLabel.setText(value.getName());
         houseLabel.setText(String.valueOf(value.getPrice()));
+        contentPanel.setBackground(Land.colors[value.getPriority() - 1]);
 
         return this;
     }

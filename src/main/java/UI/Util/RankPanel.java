@@ -4,6 +4,7 @@ import Model.Land;
 import Model.Player;
 import UI.Screen.MainGameScreen;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class RankPanel extends JPanel {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
 
         int i = 1;
-        for(Player player: playerArrayList){
+        for(Integer index: ranking(playerArrayList)){
             JLabel lb =createLabel();
 
             String str = String.valueOf(i);
@@ -66,7 +67,7 @@ public class RankPanel extends JPanel {
                     str += "TH: ";
             }
 
-            lb.setText( str + player.getTotalAssets() + "$ - " + player.getName());
+            lb.setText( str + playerArrayList.get(index).getTotalAssets() + "$ - " + playerArrayList.get(index).getName());
             lb.setFont(new java.awt.Font("Leelawadee UI", Font.BOLD, 24));
 
             centerPanel.add(lb);
@@ -89,24 +90,43 @@ public class RankPanel extends JPanel {
         return lb;
     }
 
-//    private ArrayList<Integer> ranking(ArrayList<Player> playerArrayList){
-//        ArrayList<Integer> rankIndex = new ArrayList<>();
-//        for(int i = 0; i < playerArrayList.size(); i++){
-//            int maxMoney = 0;
-//            int index = 0;
-//
-//            for(int j = 0; j < playerArrayList.size(); j++) {
-//                if (!rankIndex.contains(Integer.valueOf(i))) {
-//                    if (playerArrayList.get(j).getTotalAssets() > maxMoney) {
-//                        maxMoney = playerArrayList.get(j).getTotalAssets();
-//                        index = j;
-//                    }
-//                }
-//
-//            }
-//        }
-//
-//        return rankIndex;
-//    }
+    private ArrayList<Integer> ranking(ArrayList<Player> playerArrayList){
+        ArrayList<Integer> rankIndex = new ArrayList<>();
+        for(Player i: playerArrayList){
+            System.out.println(i.getTotalAssets());
+        }
+        System.out.println("-----------------------");
+        int minMoney = playerArrayList.get(0).getTotalAssets();
+        int minIndex = 0;
+
+        for(int i = 1; i < playerArrayList.size(); i++){
+            if(minMoney > playerArrayList.get(i).getTotalAssets()){
+                minMoney = playerArrayList.get(i).getTotalAssets();
+                minIndex = i;
+            }
+        }
+
+        for(int i = 0; i < playerArrayList.size() - 1; i++){
+            int maxMoney = minMoney;
+            int index = minIndex;
+
+            for(int j = 0; j < playerArrayList.size(); j++){
+                if(!rankIndex.contains(Integer.valueOf(j))){
+                    if(maxMoney <= playerArrayList.get(j).getTotalAssets()){
+                        maxMoney = playerArrayList.get(j).getTotalAssets();
+                        index = j;
+                    }
+                }
+            }
+            rankIndex.add(index);
+        }
+        rankIndex.add(minIndex);
+
+
+        for(Integer i: rankIndex){
+            System.out.println(i);
+        }
+        return rankIndex;
+    }
 
 }

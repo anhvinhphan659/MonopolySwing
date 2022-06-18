@@ -1,13 +1,11 @@
 package UI.Screen;
 
 import Handler.GameHandler;
-import Handler.PlayGame;
 import Main.GameFrame;
 import Model.Chance;
 import Model.Land;
 import Model.Player;
 import UI.Item.CornerItem;
-import UI.Item.HouseItem;
 import UI.Item.LandItem;
 import UI.Item.PlayerItem;
 import UI.Renderer.LandLVRenderer;
@@ -92,7 +90,7 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = playerList.getSelectedValue();
                 LandItem landItem = landItemList.get(player.getCurrentLocation());
-                GameHandler.buildHouse(player, landItem);
+//                GameHandler.buildHouse(player, landItem);
 
                 if(!landItem.getLand().isLand()){
                     JOptionPane.showMessageDialog(null,player.getName() + ", This is not land, so you can't build house(s).");
@@ -110,11 +108,12 @@ public class MainGameScreen extends JPanel {
                                 JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought all lands which have same color with " + landItem.getLand().getName() + ", so you can't build house(s).");
                             }
                             else {
-                                if(player.getMoney() < landItem.getPriceBulidHouse()){
+                                if(player.getMoney() < landItem.getPriceBuildHouse()){
                                     JOptionPane.showMessageDialog(null,player.getName() + ", You do not enough money to build house on " + landItem.getLand().getName() + ".");
                                 }
                                 else{
                                     GameHandler.buildHouse(player, landItem);
+                                    updateMoneyLabel();
                                 }
                             }
                         }
@@ -195,7 +194,7 @@ public class MainGameScreen extends JPanel {
 
                                 player.setMoney(player.getMoney() - land.getLand().getPrice());
                                 player.getLandList().add(land);
-
+                                updateMoneyLabel();
 
                                 landDefaultListModel.addElement(land.getLand());
                             }
@@ -223,7 +222,7 @@ public class MainGameScreen extends JPanel {
                                     if(choose == JOptionPane.YES_OPTION){
                                         choose = JOptionPane.showConfirmDialog(null,
                                                 "Hello, " + land.getOwner().getName() + ". " + player.getName() + " want buy " + land.getLand().getName() + " for $" + land.getPriceOfLandAndHourseWhenSell() + ". Do you want to sell it?",
-                                                "Buy Land",
+                                                "Sell Land",
                                                 JOptionPane.YES_NO_OPTION,
                                                 JOptionPane.QUESTION_MESSAGE);
 
@@ -235,6 +234,9 @@ public class MainGameScreen extends JPanel {
 
                                             player.setMoney(player.getMoney() - land.getPriceOfLandAndHourseWhenSell());
                                             player.getLandList().add(land);
+                                            updateMoneyLabel();
+
+                                            landDefaultListModel.addElement(land.getLand());
                                         }
                                     }
                                 }
@@ -393,6 +395,7 @@ public class MainGameScreen extends JPanel {
                                     if(choose == JOptionPane.YES_OPTION){
                                         landItem.setMortgage(false);
                                         playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() - landItem.getPriceOfLandWhenMortage() * 3);
+                                        updateMoneyLabel();
                                     }
                                 }
                                 else{
@@ -404,6 +407,7 @@ public class MainGameScreen extends JPanel {
                                     if(choose == JOptionPane.YES_OPTION){
                                         landItem.setMortgage(true);
                                         playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() + landItem.getPriceOfLandWhenMortage());
+                                        updateMoneyLabel();
                                     }
                                 }
 
@@ -560,7 +564,9 @@ public class MainGameScreen extends JPanel {
                 if(!isTakedDice){
                     int[] dice = rollDices();
                     GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
+                    updateMoneyLabel();
                     int result = GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
+                    updateMoneyLabel();
 
                     if (result == -1){
                         endGame();
@@ -597,7 +603,9 @@ public class MainGameScreen extends JPanel {
                 if(!isTakedDice){
                     int[] dice = rollDices();
                     GameHandler.move(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, dice);
+                    updateMoneyLabel();
                     int result = GameHandler.handle(playerList.getSelectedValue(),playerItemsArrayList.get(playerList.getSelectedIndex()), landItemList, chanceList);
+                    updateMoneyLabel();
 
                     if(result == -1){
                         endGame();
@@ -621,7 +629,6 @@ public class MainGameScreen extends JPanel {
                                     DisplayAction.movePlayer(gameLayerPanel,playerItemsArrayList.get(playerList.getSelectedIndex()),9-currentPosition + 36);
                                 }
                                 isTakedDice = true;
-
                             }
                         }
                     }
@@ -845,7 +852,12 @@ public class MainGameScreen extends JPanel {
         return n_land == n_owed_land;
     }
 
+    private void updateMoneyLabel(){
+        moneyLb.setText(String.valueOf(playerList.getSelectedValue().getMoney()));
 
+//        PlayerLVRenderer playerLVRenderer = (PlayerLVRenderer)playerList.getCellRenderer();
+//        playerLVRenderer.se
+    }
     private javax.swing.JButton backBtn;
     private javax.swing.JButton buildBtn;
     private javax.swing.JPanel gamePanel;

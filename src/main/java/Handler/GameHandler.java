@@ -1,9 +1,7 @@
 package Handler;
 
-import Main.Main;
 import Model.Chance;
 import Model.GameParameter;
-import Model.Land;
 import Model.Player;
 import UI.Item.HouseItem;
 import UI.Item.LandItem;
@@ -21,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class GameHandler {
@@ -156,8 +153,24 @@ public class GameHandler {
                     int chanceIndex = rd.nextInt(chanceList.size());
                     Chance chance = chanceList.get(chanceIndex);
 
-                    JOptionPane.showMessageDialog(null,chance.getDescription() + ": " + String.valueOf(chance.getType() * chance.getValue()), chance.getName(),JOptionPane.INFORMATION_MESSAGE);
-                    player.setMoney(player.getMoney() + chance.getType() * chance.getValue());
+                    if(chance.getType() == 0){
+                        JOptionPane.showMessageDialog(null,chance.getDescription(),"Notification",JOptionPane.INFORMATION_MESSAGE);
+
+                        int currentPosition = player.getCurrentLocation();
+                        if(currentPosition < 9){
+                            DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,9-currentPosition);
+                        }
+                        else{
+                            DisplayAction.movePlayer(MainGameScreen.gameLayerPanel,playerItem,9-currentPosition + 36);
+                        }
+
+                        player.setInPrison(true);
+                        player.setCurrentLocation(9);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,chance.getDescription() + ": " + String.valueOf(chance.getType() * chance.getValue()), chance.getName(),JOptionPane.INFORMATION_MESSAGE);
+                        player.setMoney(player.getMoney() + chance.getType() * chance.getValue());
+                    }
 //                    player.setMoney(player.getMoney() - chance.getValue());
                     return checkMoney(player);
                 default:
@@ -197,7 +210,9 @@ public class GameHandler {
             }
             h.setBounds(pos.x,pos.y,24,24);
             MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
+
             landItem.setnHouse(landItem.getnHouse() + 1);
+            player.setMoney(player.getMoney() - landItem.getPriceBuildHouse());
         }
 
 
