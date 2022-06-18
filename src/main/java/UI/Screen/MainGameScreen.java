@@ -30,6 +30,9 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 public class MainGameScreen extends JPanel {
@@ -411,13 +414,27 @@ public class MainGameScreen extends JPanel {
         });
 
         playerItemsArrayList = new ArrayList<>();
+        Integer[] colors={0,1,2,3,4,5};
+        List<Integer> colorList= Arrays.asList(colors);
+        Rectangle[] positions={
+                new Rectangle(17+25,13+25,16,16),
+                new Rectangle(17+25,13+25+16+13,16,16),
+                new Rectangle(67+25,34+25,16,16),
+                new Rectangle(67+25,34+25+16,16,16),
+                new Rectangle(17+25,13+25+16+13+16+13,16,16),
+
+        };
+        Collections.shuffle(colorList);
+
+        int i=0;
 
         for(Player player: playerArrayList){
             PlayerItem pi=new PlayerItem(player);
 
-            pi.setBounds(30,30,30,30);
+            pi.setPlayerColor(colorList.get(i));
+            pi.setBounds(positions[i]);
             gameLayerPanel.add(pi,JLayeredPane.MODAL_LAYER);
-
+            ++i;
             playerItemsArrayList.add(pi);
         }
 //        PlayerItem pi=new PlayerItem(new Player("name",1000));
@@ -475,7 +492,6 @@ public class MainGameScreen extends JPanel {
                     if(dice[0]!=dice[1])
                         isTakedDice = false;
                 }
-
             }
         });
         diceBtn2.addActionListener(new ActionListener() {
