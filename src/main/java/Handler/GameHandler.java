@@ -213,10 +213,9 @@ public class GameHandler {
                     break;
                 }
             }
-            System.out.println("------------    " + index + "      ---------");
+            pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
 
-
-            if(landItem.getnHouse() < 4){
+            if(index != 4){
 
                 pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
             }
@@ -230,21 +229,11 @@ public class GameHandler {
             landItem.setnHouse(landItem.getnHouse() + 1);
             player.setMoney(player.getMoney() - landItem.getPriceBuildHouse());
 
-            System.out.println("\n");
-            for(boolean i: landItem.getIsHasHouse()){
-                System.out.print(i + "\t");
-            }
-            System.out.println("\n--------------------");
-
             int finalIndex = index;
             h.addMouseListener(new MouseClickListener() {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
                     if(MainGameScreen.isIsSell()){
-                        for(boolean i: landItem.getIsHasHouse()){
-                            System.out.print(i + "\t");
-                        }
-
                         int choose = JOptionPane.showConfirmDialog(null, player.getName() + " Are you sure that you want sell this house on " + landItem.getLand().getName(),
                                 "Confirm",
                                 JOptionPane.YES_NO_OPTION);
@@ -255,13 +244,6 @@ public class GameHandler {
                             landItem.setnHouse(landItem.getnHouse() - 1);
                             landItem.setIsHasHouse(finalIndex, false);
                         }
-
-                        System.out.println("\n");
-                        for(boolean i: landItem.getIsHasHouse()){
-                            System.out.print(i + "\t");
-                        }
-                        System.out.println("\n--------------------");
-
                     }
                 }
             });
