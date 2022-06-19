@@ -8,6 +8,7 @@ public class HouseItem extends JLabel {
     public final static int HOTEL=1;
     private int type;
 
+
     public HouseItem()
     {
         type=0;

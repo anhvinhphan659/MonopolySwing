@@ -7,6 +7,7 @@ import com.github.weisj.darklaf.listener.MouseClickListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class LandItem extends JPanel implements MouseClickListener {
     public static final int WIDTH_ITEM=100;
@@ -20,6 +21,7 @@ public class LandItem extends JPanel implements MouseClickListener {
     private Player owner;
     private boolean isMortgage;
     private int nHouse;
+    private boolean[] isHasHouse;
 
 
     public LandItem(Land land)
@@ -27,6 +29,7 @@ public class LandItem extends JPanel implements MouseClickListener {
         this.land=land;
         this.isMortgage = false;
         this.nHouse = 0;
+        this.isHasHouse = new boolean[] {false, false, false, false, false};
 
         setPreferredSize(new Dimension(WIDTH_ITEM,HEIGHT_ITEM));
         initComponents();
@@ -188,4 +191,11 @@ public class LandItem extends JPanel implements MouseClickListener {
         this.nHouse = nHouse;
     }
 
+    public boolean[] getIsHasHouse() {
+        return isHasHouse;
+    }
+
+    public void setIsHasHouse(int index, boolean value) {
+        this.isHasHouse[index] = value;
+    }
 }

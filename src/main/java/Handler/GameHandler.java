@@ -8,11 +8,14 @@ import UI.Item.LandItem;
 import UI.Item.PlayerItem;
 import UI.Screen.MainGameScreen;
 import UI.Util.DisplayAction;
+import com.github.weisj.darklaf.listener.MouseClickListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -202,17 +205,68 @@ public class GameHandler {
         else{
             HouseItem h = new HouseItem(HouseItem.HOUSE);
             Point pos;
+
+            int index = 0;
+            for(int i = 0; i < landItem.getIsHasHouse().length; i++){
+                if(!landItem.getIsHasHouse()[i]){
+                    index = i;
+                    break;
+                }
+            }
+            System.out.println("------------    " + index + "      ---------");
+
+
             if(landItem.getnHouse() < 4){
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),landItem.getnHouse(),HouseItem.HOUSE);
+
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
             }
             else{
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),landItem.getnHouse(),HouseItem.HOTEL);
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOTEL);
             }
             h.setBounds(pos.x,pos.y,24,24);
             MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
+            landItem.setIsHasHouse(index, true);
 
             landItem.setnHouse(landItem.getnHouse() + 1);
             player.setMoney(player.getMoney() - landItem.getPriceBuildHouse());
+
+            System.out.println("\n");
+            for(boolean i: landItem.getIsHasHouse()){
+                System.out.print(i + "\t");
+            }
+            System.out.println("\n--------------------");
+
+            int finalIndex = index;
+            h.addMouseListener(new MouseClickListener() {
+                @Override
+                public void mouseClicked(MouseEvent mouseEvent) {
+                    if(MainGameScreen.isIsSell()){
+                        for(boolean i: landItem.getIsHasHouse()){
+                            System.out.print(i + "\t");
+                        }
+
+                        int choose = JOptionPane.showConfirmDialog(null, player.getName() + " Are you sure that you want sell this house on " + landItem.getLand().getName(),
+                                "Confirm",
+                                JOptionPane.YES_NO_OPTION);
+                        if(choose == JOptionPane.YES_OPTION){
+                            h.setVisible(false);
+                            h.setEnabled(false);
+                            MainGameScreen.gameLayerPanel.remove(h);
+                            landItem.setnHouse(landItem.getnHouse() - 1);
+                            landItem.setIsHasHouse(finalIndex, false);
+                        }
+
+                        System.out.println("\n");
+                        for(boolean i: landItem.getIsHasHouse()){
+                            System.out.print(i + "\t");
+                        }
+                        System.out.println("\n--------------------");
+
+                    }
+                }
+            });
+
+
         }
 
 
