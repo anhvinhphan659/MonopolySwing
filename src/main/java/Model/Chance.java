@@ -37,4 +37,13 @@ public class Chance {
     public String getDescription() {
         return description;
     }
+    public JSONObject toJSONObject()
+    {
+        JSONObject jo=new JSONObject();
+        jo.put("name",name);
+        jo.put("type",type);
+        jo.put("value",value);
+        jo.put("description",description);
+        return jo;
+    }
 }
