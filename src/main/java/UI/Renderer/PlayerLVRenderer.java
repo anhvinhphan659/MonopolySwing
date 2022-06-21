@@ -28,7 +28,7 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
         setSize(new Dimension(150,50));
         setPreferredSize(new Dimension(150,50));
         setOpaque(true);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(Color.WHITE);
         setBorder(new EmptyBorder(5,5,5,5));
         leftPanel=new JPanel();
         leftPanel.setPreferredSize(new Dimension(20,20));
@@ -52,7 +52,7 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
         leftPanel.setBackground(value.getPlayerColor());
 
         if(isSelected){
-            contentPanel.setBackground(new Color(235,183,120));
+            contentPanel.setBackground(new Color(242, 235, 235));
         }
         else{
             contentPanel.setBackground(Color.WHITE);

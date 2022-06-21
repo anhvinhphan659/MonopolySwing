@@ -6,7 +6,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Land {
-    public static final Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.PINK, Color.GRAY};
+    public static final Color[] colors = {
+            Color.RED,
+            Color.ORANGE,
+            Color.YELLOW,
+            Color.GREEN,
+            Color.BLUE,
+            Color.CYAN,
+            Color.PINK,
+            Color.GRAY};
 
     private int thLand;
     private String name;

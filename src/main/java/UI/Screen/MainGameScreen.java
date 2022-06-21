@@ -119,7 +119,7 @@ public class MainGameScreen extends JPanel {
 //                        }
 //                    }
 //                }
-
+//
 
 
 
@@ -403,7 +403,6 @@ public class MainGameScreen extends JPanel {
                                             updateMoneyLabel();
                                         }
                                     }
-
                                 }
                                 else{
                                     int choose = JOptionPane.showConfirmDialog(null,
@@ -413,6 +412,7 @@ public class MainGameScreen extends JPanel {
                                             JOptionPane.QUESTION_MESSAGE);
                                     if(choose == JOptionPane.YES_OPTION){
                                         landItem.setMortgage(true);
+                                        landItem.setColor(PlayerItem.mortageColors[playerItemsArrayList.get(playerList.getSelectedIndex()).getPlayerColor()]);
                                         playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() + landItem.getPriceOfLandWhenMortage());
                                         updateMoneyLabel();
                                     }
@@ -522,6 +522,13 @@ public class MainGameScreen extends JPanel {
             ++i;
             playerItemsArrayList.add(pi);
         }
+//        PlayerItem pi=new PlayerItem(new Player("name",1000));
+
+
+//        JButton moveBtn=new JButton("Move");
+//        moveBtn.setBounds(200,200,100,40);
+//        gameLayerPanel.add(moveBtn);
+
 
         doneBtn=new JButton("DONE");
         doneBtn.setBounds(275,300,100,40);
