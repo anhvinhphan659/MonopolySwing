@@ -394,6 +394,7 @@ public class MainGameScreen extends JPanel {
                                             JOptionPane.QUESTION_MESSAGE);
                                     if(choose == JOptionPane.YES_OPTION){
                                         landItem.setMortgage(false);
+                                        landItem.setColor(PlayerItem.ownColors[playerItemsArrayList.get(playerList.getSelectedIndex()).getPlayerColor()]);
                                         playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() - landItem.getPriceOfLandWhenMortage() * 3);
                                         updateMoneyLabel();
                                     }
@@ -406,6 +407,7 @@ public class MainGameScreen extends JPanel {
                                             JOptionPane.QUESTION_MESSAGE);
                                     if(choose == JOptionPane.YES_OPTION){
                                         landItem.setMortgage(true);
+                                        landItem.setColor(PlayerItem.mortageColors[playerItemsArrayList.get(playerList.getSelectedIndex()).getPlayerColor()]);
                                         playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() + landItem.getPriceOfLandWhenMortage());
                                         updateMoneyLabel();
                                     }

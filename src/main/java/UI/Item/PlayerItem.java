@@ -23,6 +23,17 @@ public class PlayerItem extends JLabel {
             new Color(143,74,0),
             new Color(117,5,106),
     };
+
+    public final static Color[] playerColors={
+            Color.RED,
+            Color.YELLOW,
+            Color.GREEN,
+            Color.BLUE,
+            Color.ORANGE,
+            Color.PINK,
+    };
+
+
     private final static String[] images={
             "player_red",
             "player_yellow",
@@ -53,8 +64,8 @@ public class PlayerItem extends JLabel {
 
     public void setPlayerColor(int color)
     {
-        playerColor=color%6;
-        player.setPlayerColor(ownColors[color]);
+        playerColor=color%playerColors.length;
+        player.setPlayerColor(playerColors[color]);
         initComponents();
     }
 
