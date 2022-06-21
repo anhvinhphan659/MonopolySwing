@@ -344,7 +344,6 @@ public class MainGameScreen extends JPanel {
                 public void run() {
                     gameLayerPanel.add(rotateCorner,JLayeredPane.DEFAULT_LAYER);
                     gameLayerPanel.repaint();
-//                    System.out.println("Draw corner");
                     try {
                         Thread.sleep(ACTION_INTERVAL);
                     } catch (InterruptedException e) {
@@ -366,8 +365,6 @@ public class MainGameScreen extends JPanel {
             startY+=(direction>0)?+CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
         }
         landItemList.add(corner);
-//        System.out.println(""+startX+"-"+startY);
-        //draw land
         for(int i=1;i<=8;i++)
         {
             //get land from list
@@ -400,6 +397,7 @@ public class MainGameScreen extends JPanel {
                                         if(choose == JOptionPane.YES_OPTION){
                                             landItem.setMortgage(false);
                                             playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() - landItem.getPriceOfLandWhenMortage());
+                                            landItem.setColor(PlayerItem.ownColors[playerItemsArrayList.get(playerList.getSelectedIndex()).getPlayerColor()]);
                                             updateMoneyLabel();
                                         }
                                     }
@@ -417,7 +415,6 @@ public class MainGameScreen extends JPanel {
                                         updateMoneyLabel();
                                     }
                                 }
-
                             }
                         }else {
                             DisplayAction.showLandInformation(finalLand);
@@ -431,10 +428,7 @@ public class MainGameScreen extends JPanel {
                         gameLayerPanel.add(rotateLandItem,JLayeredPane.DEFAULT_LAYER);
                         gameLayerPanel.repaint();
 
-//                        System.out.println("Draw land");
-//                        System.out.println(""+finalStartX1+"-"+finalStartY1);
                         try {
-
                             Thread.sleep(ACTION_INTERVAL);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -861,9 +855,8 @@ public class MainGameScreen extends JPanel {
 
     private void updateMoneyLabel(){
         moneyLb.setText(String.valueOf(playerList.getSelectedValue().getMoney()));
-
-//        PlayerLVRenderer playerLVRenderer = (PlayerLVRenderer)playerList.getCellRenderer();
-//        playerLVRenderer.se
+//        playerDefaultListModel.getElementAt()
+//        playerList.get
     }
 
     public static boolean isIsSell() {

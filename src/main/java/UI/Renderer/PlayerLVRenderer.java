@@ -61,6 +61,7 @@ public class PlayerLVRenderer extends JPanel implements ListCellRenderer<Player>
         return this;
     }
 
+
     public JLabel getMoneyLabel() {
         return moneyLabel;
     }
