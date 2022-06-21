@@ -267,7 +267,7 @@ public class GameHandler {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
                     if(MainGameScreen.isIsSell() && landItem.getOwner() == MainGameScreen.playerList.getSelectedValue()){
-                        int choose = JOptionPane.showConfirmDialog(null, player.getName() + " Are you sure that you want sell this house on " + landItem.getLand().getName(),
+                        int choose = JOptionPane.showConfirmDialog(null, player.getName() + ", Are you sure that you want sell this house on " + landItem.getLand().getName(),
                                 "Confirm",
                                 JOptionPane.YES_NO_OPTION);
                         if(choose == JOptionPane.YES_OPTION){
@@ -276,6 +276,9 @@ public class GameHandler {
                             MainGameScreen.gameLayerPanel.remove(h);
                             landItem.setnHouse(landItem.getnHouse() - 1);
                             landItem.setIsHasHouse(finalIndex, false);
+
+                            player.setMoney((int) (player.getMoney() + landItem.getPriceBuildHouse() * 0.8));
+                            MainGameScreen.playerList.updateUI();
                         }
                     }
                 }

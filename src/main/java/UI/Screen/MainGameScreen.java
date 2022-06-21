@@ -90,35 +90,35 @@ public class MainGameScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player player = playerList.getSelectedValue();
                 LandItem landItem = landItemList.get(player.getCurrentLocation());
-                GameHandler.buildHouse(player, landItem);
-                updateMoneyLabel();
-//                if(!landItem.getLand().isLand()){
-//                    JOptionPane.showMessageDialog(null,player.getName() + ", This is not land, so you can't build house(s).");
-//                }
-//                else{
-//                    if(landItem.getOwner() == null){
-//                        JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought " + landItem.getLand().getName() + " yet, so you can't build house(s).");
-//                    }
-//                    else{
-//                        if(landItem.getOwner() != player){
-//                            JOptionPane.showMessageDialog(null,player.getName() + ", You are not the owner of " + landItem.getLand().getName() + ", so you can't build house(s).");
-//                        }
-//                        else{
-//                            if(!isBuyAllLandSameLevel(player, landItem)){
-//                                JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought all lands which have same color with " + landItem.getLand().getName() + ", so you can't build house(s).");
-//                            }
-//                            else {
-//                                if(player.getMoney() < landItem.getPriceBuildHouse()){
-//                                    JOptionPane.showMessageDialog(null,player.getName() + ", You do not enough money to build house on " + landItem.getLand().getName() + ".");
-//                                }
-//                                else{
-//                                    GameHandler.buildHouse(player, landItem);
-//                                    updateMoneyLabel();
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+
+
+                if(!landItem.getLand().isLand()){
+                    JOptionPane.showMessageDialog(null,player.getName() + ", This is not land, so you can't build house(s).");
+                }
+                else{
+                    if(landItem.getOwner() == null){
+                        JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought " + landItem.getLand().getName() + " yet, so you can't build house(s).");
+                    }
+                    else{
+                        if(landItem.getOwner() != player){
+                            JOptionPane.showMessageDialog(null,player.getName() + ", You are not the owner of " + landItem.getLand().getName() + ", so you can't build house(s).");
+                        }
+                        else{
+                            if(!isBuyAllLandSameLevel(player, landItem)){
+                                JOptionPane.showMessageDialog(null,player.getName() + ", You haven't bought all lands which have same color with " + landItem.getLand().getName() + ", so you can't build house(s).");
+                            }
+                            else {
+                                if(player.getMoney() < landItem.getPriceBuildHouse()){
+                                    JOptionPane.showMessageDialog(null,player.getName() + ", You do not enough money to build house on " + landItem.getLand().getName() + ".");
+                                }
+                                else{
+                                    GameHandler.buildHouse(player, landItem);
+                                    updateMoneyLabel();
+                                }
+                            }
+                        }
+                    }
+                }
 
 
 
