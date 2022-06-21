@@ -252,7 +252,7 @@ public class GameHandler {
             else{
                 h = new HouseItem(HouseItem.HOTEL);
                 pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index+1,HouseItem.HOTEL);
-                h.setBounds(pos.x,pos.y,24,24);
+                h.setBounds(pos.x,pos.y,24*2,24*2);
                 MainGameScreen.gameLayerPanel.add(h,JLayeredPane.DRAG_LAYER);
 
             }

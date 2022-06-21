@@ -1,6 +1,7 @@
 package UI.Item;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class HouseItem extends JLabel {
 
@@ -26,7 +27,14 @@ public class HouseItem extends JLabel {
         if(type==0)
             setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/house.png")));
         else
-            setIcon(new ImageIcon(this.getClass().getResource("/UI/assets/hotel.png")));
+        {
+            ImageIcon imageIcon =new ImageIcon(this.getClass().getResource("/UI/assets/hotel.png"));
+            Image image=imageIcon.getImage();
+            imageIcon=new ImageIcon(image.getScaledInstance(24*2,24*2,Image.SCALE_SMOOTH));
+            setIcon(imageIcon);
+
+        }
+
 
     }
 }
