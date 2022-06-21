@@ -242,17 +242,20 @@ public class GameHandler {
                     break;
                 }
             }
-            pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
+
+
 
             if(index != 4){
 
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index+1,HouseItem.HOUSE);
             }
             else{
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOTEL);
+                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index+1,HouseItem.HOTEL);
             }
+            System.out.println(""+index+"-"+pos);
             h.setBounds(pos.x,pos.y,24,24);
             MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
+
             landItem.setIsHasHouse(index, true);
 
             landItem.setnHouse(landItem.getnHouse() + 1);
