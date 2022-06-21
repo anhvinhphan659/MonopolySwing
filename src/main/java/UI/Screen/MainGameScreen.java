@@ -60,10 +60,10 @@ public class MainGameScreen extends JPanel {
 
 
     public MainGameScreen() throws IOException {
-        nPlayer = GameParameter.getnPlayer();
+        nPlayer = GameParameter.getNPlayer();
         playerArrayList = new ArrayList<>();
         landItemList=new ArrayList<>();
-        landInformationList= GameHandler.readLandList();
+        landInformationList= GameParameter.get_landInformationList();
 //        playerItems=new ArrayList<>();
         initChanceList();
 
@@ -475,7 +475,7 @@ public class MainGameScreen extends JPanel {
 
         playerList.setCellRenderer(new PlayerLVRenderer());
 
-        ArrayList<String> namePlayerList = GameHandler.readNameFile();
+        ArrayList<String> namePlayerList = GameParameter.get_playerNameList();
         for(int i = 0; i< nPlayer; i++){
             playerArrayList.add(new Player(namePlayerList.get(i), GameParameter.getMoney()));
             playerDefaultListModel.addElement(playerArrayList.get(i));
@@ -762,7 +762,7 @@ public class MainGameScreen extends JPanel {
     }
 
     private void initChanceList(){
-        chanceInformationList = GameHandler.readChanceList();
+        chanceInformationList = GameParameter.get_chanceInformationList();
         chanceList = new ArrayList<>();
         for(int i = 0; i < chanceInformationList.size(); i++){
             chanceList.add(new Chance(chanceInformationList.get(i)));

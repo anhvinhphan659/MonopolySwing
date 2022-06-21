@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,12 +24,41 @@ import java.io.*;
 import java.util.Random;
 
 public class GameHandler {
-    public final static String PATH_NAME_FILE = "resources/names.txt";
+    public final static String PATH_PARAM_FILE = "resources/params.json";
     public static final String LAND_SOURCE_FILE="resources/lands.json";
     public static final String CHANCE_SOURCE_FILE="resources/chances.json";
+
+    //set up params
+    public static void generateParams()
+    {
+        try {
+            //read params
+            BufferedReader br=new BufferedReader(new FileReader(PATH_PARAM_FILE));
+            String data="";
+            String line;
+            while((line= br.readLine())!=null)
+            {
+                data+=line;
+            }
+            JSONObject jsonData=new JSONObject(data);
+            JSONArray names=jsonData.getJSONArray("PLAYER_NAMES");
+            ArrayList<String> nameList = new ArrayList<>();
+            for (int i=0;i<names.length();i++)
+            {
+                nameList.add(names.getString(i));
+            }
+            //set params
+            GameParameter.setMoney(jsonData.getInt("START_MONEY"));
+            GameParameter.set_playerNameList(nameList);
+            GameParameter.set_landInformationList(readLandList());
+            GameParameter.set_chanceInformationList(readChanceList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static ArrayList<String> readNameFile() throws IOException {
         ArrayList<String> nameList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(PATH_NAME_FILE))));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(PATH_PARAM_FILE))));
         while (true){
             String name = br.readLine();
             if(name != null){
@@ -45,6 +73,7 @@ public class GameHandler {
     public static ArrayList<JSONObject> readLandList()
     {
         ArrayList<JSONObject> ret=new ArrayList<>();
+
         try {
             BufferedReader br=new BufferedReader(new FileReader(LAND_SOURCE_FILE));
             String data="";
@@ -252,5 +281,10 @@ public class GameHandler {
         }
 
 
+    }
+
+    public int saveChanges()
+    {
+        return 1;
     }
 }

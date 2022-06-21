@@ -46,4 +46,14 @@ public class Land {
     public boolean isLand() {
         return isLand;
     }
+
+    public JSONObject toJSONObject()
+    {
+        JSONObject jo=new JSONObject();
+        jo.put("name",name);
+        jo.put("landPrice",price);
+        jo.put("priority",priority);
+        jo.put("isLand",isLand);
+        return jo;
+    }
 }
