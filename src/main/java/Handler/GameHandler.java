@@ -47,6 +47,11 @@ public class GameHandler {
             {
                 nameList.add(names.getString(i));
             }
+            GameParameter._playerNameListDefault.add("Alex");
+            GameParameter._playerNameListDefault.add("Alexandra");
+            GameParameter._playerNameListDefault.add("Kate");
+            GameParameter._playerNameListDefault.add("Harry");
+            GameParameter._playerNameListDefault.add("Hermione");
             //set params
             GameParameter.setMoney(jsonData.getInt("START_MONEY"));
             GameParameter.set_playerNameList(nameList);
@@ -287,8 +292,24 @@ public class GameHandler {
 
     }
 
-    public int saveChanges()
+    public static int saveParams()
     {
+        System.out.println("Save Data");
+        JSONObject settings=new JSONObject();
+        settings.put("START_MONEY",GameParameter.getMoney());
+        settings.put("PLAYER_NAMES",new JSONArray(GameParameter.get_playerNameList().toArray()));
+        try {
+            BufferedWriter bw=new BufferedWriter(new FileWriter(PATH_PARAM_FILE));
+            System.out.println(settings);
+            bw.write(settings.toString());
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
         return 1;
     }
+
+
 }

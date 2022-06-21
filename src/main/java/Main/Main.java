@@ -18,6 +18,6 @@ public class Main {
         GameHandler.generateParams();
         //init UI
         GameFrame.getGameDisplay();
-
+//            GameHandler.saveChanges();
     }
 }

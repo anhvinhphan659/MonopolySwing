@@ -7,9 +7,18 @@ import java.util.ArrayList;
 public class GameParameter {
     private static int _N_PLAYER = 2;
     private static ArrayList<String> _playerNameList = new ArrayList<>();
+    public static ArrayList<String> _playerNameListDefault = new ArrayList<>();
+    {
+        _playerNameListDefault.add("Alex");
+        _playerNameListDefault.add("Alexandra");
+        _playerNameListDefault.add("Kate");
+        _playerNameListDefault.add("Harry");
+        _playerNameListDefault.add("Hermione");
+    }
     private static ArrayList<JSONObject> _landInformationList =new ArrayList<>();
     private static ArrayList<JSONObject> _chanceInformationList =new ArrayList<>();
     private static int _MONEY = 200;
+    public static int _MONEY_DEFAULT = 200;
 
 
     public static int getNPlayer() {
@@ -21,6 +30,7 @@ public class GameParameter {
     }
 
     public static ArrayList<String> get_playerNameList() {
+
         return _playerNameList;
     }
 

@@ -1,9 +1,1 @@
-{
-  "START_MONEY": 1000,
-  "PLAYER_NAMES": [
-    "Alex",
-    "Alexandra",
-    "Kate",
-    "Harry",
-    "Hermione"]
-}
+{"PLAYER_NAMES":["Alex","Alexandra","Kate","Harry","Hermione"],"START_MONEY":320}
