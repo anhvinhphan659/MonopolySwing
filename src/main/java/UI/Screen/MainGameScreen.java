@@ -119,7 +119,7 @@ public class MainGameScreen extends JPanel {
 //                        }
 //                    }
 //                }
-//
+
 
 
 
@@ -387,16 +387,23 @@ public class MainGameScreen extends JPanel {
                         if(isMortage){
                             if(landItem.getOwner() != null && landItem.getOwner() == playerList.getSelectedValue()){
                                 if(landItem.isMortgage()){
-                                    int choose = JOptionPane.showConfirmDialog(null,
-                                            "Are you sure you want to redeem " + finalLand.getName() + "?",
-                                            "Redeem Land",
-                                            JOptionPane.YES_NO_OPTION,
-                                            JOptionPane.QUESTION_MESSAGE);
-                                    if(choose == JOptionPane.YES_OPTION){
-                                        landItem.setMortgage(false);
-                                        playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() - landItem.getPriceOfLandWhenMortage() * 3);
-                                        updateMoneyLabel();
+                                    if(playerList.getSelectedValue().getMoney() < landItem.getPriceOfLandWhenMortage()){
+                                        JOptionPane.showMessageDialog(null,
+                                                playerList.getSelectedValue().getName() + ", You do not have enough to redeem " + finalLand.getName());
                                     }
+                                    else{
+                                        int choose = JOptionPane.showConfirmDialog(null,
+                                                playerList.getSelectedValue().getName() + ", Are you sure you want to redeem " + finalLand.getName() + "?",
+                                                "Redeem Land",
+                                                JOptionPane.YES_NO_OPTION,
+                                                JOptionPane.QUESTION_MESSAGE);
+                                        if(choose == JOptionPane.YES_OPTION){
+                                            landItem.setMortgage(false);
+                                            playerList.getSelectedValue().setMoney(playerList.getSelectedValue().getMoney() - landItem.getPriceOfLandWhenMortage());
+                                            updateMoneyLabel();
+                                        }
+                                    }
+
                                 }
                                 else{
                                     int choose = JOptionPane.showConfirmDialog(null,
@@ -515,13 +522,6 @@ public class MainGameScreen extends JPanel {
             ++i;
             playerItemsArrayList.add(pi);
         }
-//        PlayerItem pi=new PlayerItem(new Player("name",1000));
-
-
-//        JButton moveBtn=new JButton("Move");
-//        moveBtn.setBounds(200,200,100,40);
-//        gameLayerPanel.add(moveBtn);
-
 
         doneBtn=new JButton("DONE");
         doneBtn.setBounds(275,300,100,40);

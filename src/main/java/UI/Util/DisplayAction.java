@@ -16,7 +16,6 @@ public class DisplayAction {
     public static void showLandInformation(Land land)
     {
         LandInformationPanel informationPane=new LandInformationPanel(land);
-//        RankPanel rankPanel = new RankPanel();
         JOptionPane.showMessageDialog(null,informationPane,land.getName()+"'s Information",JOptionPane.UNDEFINED_CONDITION);
     }
 

@@ -215,13 +215,13 @@ public class GameHandler {
             }
             pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
 
-            if(index != 4){
-
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
-            }
-            else{
-                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOTEL);
-            }
+//            if(index != 4){
+//
+//                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOUSE);
+//            }
+//            else{
+//                pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index,HouseItem.HOTEL);
+//            }
             h.setBounds(pos.x,pos.y,24,24);
             MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
             landItem.setIsHasHouse(index, true);
