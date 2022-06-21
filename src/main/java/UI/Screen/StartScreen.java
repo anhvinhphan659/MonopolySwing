@@ -93,6 +93,14 @@ public class StartScreen extends JPanel {
                 gameFrame.dispose();
             }
         });
+        settingBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameFrame gameFrame=(GameFrame)SwingUtilities.getWindowAncestor(StartScreen.this);
+                gameFrame.setSize(new Dimension(SettingScreen.WIDTH_SCREEN,SettingScreen.HEIGHT_SCREEN));
+                gameFrame.changeGamePanel(new SettingScreen());
+            }
+        });
     }
     private javax.swing.JButton exitBtn;
     private javax.swing.Box.Filler filler1;
