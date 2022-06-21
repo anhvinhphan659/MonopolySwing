@@ -165,7 +165,7 @@ public class GameHandler {
         if(landItem.getLand().isLand()){
             if(landItem.getOwner() != null) {
                 if (landItem.getOwner() != player && landItem.isMortgage() == false) {
-                    JOptionPane.showMessageDialog(null, "You have to pay rent for " + landItem.getOwner().getName());
+                    JOptionPane.showMessageDialog(null, "You have to pay rent for " + landItem.getOwner().getName() + ": " + landItem.getRent() + "$");
                     player.setMoney(player.getMoney() - landItem.getRent());
                     landItem.getOwner().setMoney(landItem.getOwner().getMoney() + landItem.getRent());
                     return checkMoney(player);
@@ -232,7 +232,7 @@ public class GameHandler {
             JOptionPane.showMessageDialog(null, player.getName() + ", You cannot build more houses on " + landItem.getLand().getName());
         }
         else{
-            HouseItem h = new HouseItem(HouseItem.HOUSE);
+            HouseItem h;
             Point pos;
 
             int index = 0;
@@ -243,18 +243,19 @@ public class GameHandler {
                 }
             }
 
-
-
             if(index != 4){
-
+                h = new HouseItem(HouseItem.HOUSE);
                 pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index+1,HouseItem.HOUSE);
+                h.setBounds(pos.x,pos.y,24,24);
+                MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
             }
             else{
+                h = new HouseItem(HouseItem.HOTEL);
                 pos = DisplayAction.getHousePosition(player.getCurrentLocation(),index+1,HouseItem.HOTEL);
+                h.setBounds(pos.x,pos.y,24,24);
+                MainGameScreen.gameLayerPanel.add(h,JLayeredPane.DRAG_LAYER);
+
             }
-            System.out.println(""+index+"-"+pos);
-            h.setBounds(pos.x,pos.y,24,24);
-            MainGameScreen.gameLayerPanel.add(h,JLayeredPane.MODAL_LAYER);
 
             landItem.setIsHasHouse(index, true);
 
@@ -265,7 +266,7 @@ public class GameHandler {
             h.addMouseListener(new MouseClickListener() {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
-                    if(MainGameScreen.isIsSell()){
+                    if(MainGameScreen.isIsSell() && landItem.getOwner() == MainGameScreen.playerList.getSelectedValue()){
                         int choose = JOptionPane.showConfirmDialog(null, player.getName() + " Are you sure that you want sell this house on " + landItem.getLand().getName(),
                                 "Confirm",
                                 JOptionPane.YES_NO_OPTION);

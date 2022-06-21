@@ -91,7 +91,7 @@ public class MainGameScreen extends JPanel {
                 Player player = playerList.getSelectedValue();
                 LandItem landItem = landItemList.get(player.getCurrentLocation());
                 GameHandler.buildHouse(player, landItem);
-
+                updateMoneyLabel();
 //                if(!landItem.getLand().isLand()){
 //                    JOptionPane.showMessageDialog(null,player.getName() + ", This is not land, so you can't build house(s).");
 //                }
@@ -119,7 +119,7 @@ public class MainGameScreen extends JPanel {
 //                        }
 //                    }
 //                }
-//
+
 
 
 
@@ -855,13 +855,14 @@ public class MainGameScreen extends JPanel {
 
     private void updateMoneyLabel(){
         moneyLb.setText(String.valueOf(playerList.getSelectedValue().getMoney()));
-//        playerDefaultListModel.getElementAt()
-//        playerList.get
+//        playerList.setCellRenderer((ListCellRenderer<? super Player>) playerDefaultListModel);
+        playerList.updateUI();
     }
 
     public static boolean isIsSell() {
         return isSell;
     }
+
 
     private javax.swing.JButton backBtn;
     private javax.swing.JButton buildBtn;
@@ -881,7 +882,7 @@ public class MainGameScreen extends JPanel {
     private javax.swing.JList<Land> landList;
     private javax.swing.JLabel moneyLb;
     private javax.swing.JButton mortageBtn;
-    private javax.swing.JList<Player> playerList;
+    public static javax.swing.JList<Player> playerList;
     private javax.swing.JButton sellBtn;
     private javax.swing.JButton buyBtn;
 

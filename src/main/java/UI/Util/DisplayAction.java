@@ -114,64 +114,53 @@ public class DisplayAction {
         Point p=new Point();
         int start_x=100+25;
         int start_y=100+25;
-        // TODO: calculate startx,starty of land
-        if(typeHouse==HouseItem.HOUSE)
-        {
-            if(landTH<9||(landTH>18&&landTH<27))
-            {
-                int tempTh=landTH<9?landTH:landTH-18;
-                start_x+=(tempTh-1)*50;
-                start_y-=10;
-                if(houseTh>2)
-                    start_y-=24;
-                if (houseTh%2==0)
-                    start_x+=24+2;
-                if(landTH>18)
-                {
-                    start_x=325*2-(start_x+24);
-                    start_y=325*2-(start_y+24);
-                }
-            }
-            else
-            {
-                int tempTh=landTH<18?landTH-9:landTH-27;
-                start_x+=400-14;
-                start_y+=(tempTh-1)*50;
-                if(houseTh>2)
-                    start_y+=24+2;
-                if(houseTh%2==0)
-                    start_x+=24;
-                if(landTH>27)
-                {
-                    start_x=325*2-(start_x+24);
-                    start_y=325*2-(start_y+24);
-                }
 
+        int temp;
+        // TODO: calculate startx,starty of land
+        if(landTH<9||(landTH>18&&landTH<27))
+        {
+            if(typeHouse==HouseItem.HOUSE){
+                temp = houseTh;
+            }
+            else{
+                temp = landTH < 9 ? 3 : 2;
+            }
+
+            int tempTh=landTH<9?landTH:landTH-18;
+            start_x+=(tempTh-1)*50;
+            start_y-=10;
+            if(temp>2)
+                start_y-=24;
+            if (temp%2==0)
+                start_x+=24+2;
+            if(landTH>18)
+            {
+                start_x=325*2-(start_x+24);
+                start_y=325*2-(start_y+24);
             }
         }
-        else {
-            if(landTH<9||(landTH>18&&landTH<27))
-            {
-                int tempTh=landTH<9?landTH:landTH-18;
-                start_x+=(tempTh-1)*50+13;
-                start_y-=(24-2);
-                if(landTH>18)
-                {
-                    start_x=325*2-(start_x);
-                    start_y=325*2-(start_y+24);
-                }
+        else
+        {
+            if(typeHouse==HouseItem.HOUSE){
+                temp = houseTh;
             }
-            else
-            {
-                int tempTh=landTH<18?landTH-9:landTH-27;
-                start_x+=400-2;
-                start_y+=(tempTh-1)*50+13;
-                if(landTH>27)
-                {
-                    start_x=325*2-(start_x+24);
-                    start_y=325*2-(start_y+24);
-                }
+            else{
+                temp = landTH <= 18  ? 1 : 4;
             }
+
+            int tempTh=landTH<18?landTH-9:landTH-27;
+            start_x+=400-14;
+            start_y+=(tempTh-1)*50;
+            if(temp>2)
+                start_y+=24+2;
+            if(temp%2==0)
+                start_x+=24;
+            if(landTH>27)
+            {
+                start_x=325*2-(start_x+24);
+                start_y=325*2-(start_y+24);
+            }
+
         }
         p.x=start_x;
         p.y=start_y;
