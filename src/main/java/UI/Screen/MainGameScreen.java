@@ -319,14 +319,15 @@ public class MainGameScreen extends JPanel {
         //draw corner
         Land land=new Land(landInformationList,indexLand++);
         CornerItem corner=new CornerItem(land);
+
         try {
             int finalStartX = startX;
             int finalStartY = startY;
             DefaultTransformModel transformModel=new DefaultTransformModel();
-            transformModel.setRotation(Math.toRadians(direction*90));
-            transformModel.setScale(1);
-            if(direction%2==0)
-                transformModel.setScale(-1);
+////            transformModel.setRotation(Math.toRadians(direction*90));
+//            transformModel.setScale(1);
+//            if(direction%2==0)
+//                transformModel.setScale(-1);
             JXLayer<JComponent> rotateCorner=TransformUtils.createTransformJXLayer(corner,transformModel);
 
 
@@ -361,6 +362,7 @@ public class MainGameScreen extends JPanel {
             startX+=(direction>0)?CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
         }
         else
+
         {
             startY+=(direction>0)?+CornerItem.HEIGHT_ITEM-25:-CornerItem.HEIGHT_ITEM+25;
         }

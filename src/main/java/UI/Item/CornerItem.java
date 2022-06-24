@@ -26,13 +26,28 @@ public class CornerItem extends LandItem{
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         setSize(new Dimension(HEIGHT_ITEM,WIDTH_ITEM));
         setPreferredSize(new Dimension(HEIGHT_ITEM,WIDTH_ITEM));
-
+        setImageItem();
         add(imageLb,BorderLayout.CENTER);
     }
 
     public void setImageItem()
     {
         // TODO: set image for land size
+        String type=land.getName();
+        String path="/UI/assets/";
+        if(type.equalsIgnoreCase("Start"))
+            path+="start.png";
+        else if(type.equalsIgnoreCase("Prison"))
+            path+="visitjail.png";
+        else if(type.equalsIgnoreCase("Park"))
+            path+="freeparking.png";
+        else if(type.equalsIgnoreCase("Go to jail"))
+            path+="gotojail.png";
+        ImageIcon imageIcon =new ImageIcon(this.getClass().getResource(path));
+        Image image=imageIcon.getImage();
+        imageIcon=new ImageIcon(image.getScaledInstance(WIDTH_ITEM,HEIGHT_ITEM,Image.SCALE_SMOOTH));
+        imageLb.setIcon(imageIcon);
+
     }
 
     private JLabel imageLb;
