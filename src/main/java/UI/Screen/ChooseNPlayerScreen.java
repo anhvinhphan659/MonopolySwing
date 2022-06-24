@@ -52,6 +52,10 @@ public class ChooseNPlayerScreen extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 int value = nPlayerSl.getValue();
+                if (value<=2)
+                {
+                    value=2;
+                }
                 nPlayerSl.setValue(value);
                 nPlayerTf.setText(String.valueOf(value));
                 GameParameter.setNPlayer(value);
